@@ -1,0 +1,30 @@
+{
+    "name": "quick-express",
+    "version": "0.0.1",
+    "description": "A node.js restful api model.",
+    "main": "build/server.js",
+    "scripts": {
+        "build": "cleandir build && tsc",
+        "serve": "node build/server.js",
+        "start": "cleandir build && tsc && node build/server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "José Camelo de Freitas <cmpjosf@outlook.com>",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "jsonwebtoken": "^8.4.0"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.4",
+        "@types/express": "^4.16.1",
+        "@types/jsonwebtoken": "^8.3.0",
+        "@types/node": "^10.12.18",
+        "clean-dir": "^1.0.3",
+        "tslint": "^5.12.1",
+        "tslint-eslint-rules": "^5.4.0",
+        "typescript": "^3.2.4"
+    }
+}

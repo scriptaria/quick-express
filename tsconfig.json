@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2018",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "build",
+        "allowJs": true,
+        "baseUrl": "./src",
+        "paths": {
+            "@/*": [
+                "./*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "build"
+    ],
+    "include": [
+        "src/**/*.ts",
+    ],
+    "files": [
+        "src/server.ts"
+    ]
+}
