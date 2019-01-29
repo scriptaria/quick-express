@@ -1,7 +1,8 @@
+import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { User } from "../../../models/user";
 import { settings } from "../../../settings";
 import { generateTokens } from "../helper";
-import { users } from "../model";
 
 export const postLogin = (request: Request, response: Response) => {
 
@@ -11,20 +12,27 @@ export const postLogin = (request: Request, response: Response) => {
         return;
     }
 
-    const user = users.find((result) => {
-        return result.email === request.body.email && result.password === request.body.password;
-    });
+    User.findOne({ email: request.body.email })
+        .then((user) => {
 
-    if (!user) {
-        response.status(400);
-        response.send({ error: "User not found or password do not match." });
-        return;
-    }
+            bcrypt.compare(request.body.password, user.password).then((result) => {
 
-    const { password, ...userWithoutPassword } = user;
-    const tokens = generateTokens(userWithoutPassword.id, settings.auth.secret, settings.auth.expires);
+                if (!result) {
+                    response.status(400);
+                    response.send({ error: "Wrong password." });
+                    return;
+                }
 
-    response.status(200);
-    response.send({ ...userWithoutPassword, ...tokens });
+                const { password, ...userWithoutPassword } = user;
+                const tokens = generateTokens(userWithoutPassword.id, settings.auth.secret, settings.auth.expires);
 
+                response.status(200);
+                response.send({ ...userWithoutPassword, ...tokens });
+            });
+
+        })
+        .catch(() => {
+            response.status(400);
+            response.send({ error: "User not found." });
+        });
 };

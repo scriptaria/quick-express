@@ -1,5 +1,6 @@
+import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { users } from "../model";
+import { User } from "../../../models/user";
 
 export const postRegister = (request: Request, response: Response) => {
 
@@ -9,13 +10,21 @@ export const postRegister = (request: Request, response: Response) => {
         return;
     }
 
-    users.push({
-        id: users[users.length - 1].id + 1,
-        email: request.body.email,
-        password: request.body.password,
-        name: request.body.name,
-    });
+    bcrypt.hash(request.body.password, 10).then((encrypted) => {
 
-    response.status(201);
-    response.send();
+        const user = new User();
+        user.name = request.body.name;
+        user.password = encrypted;
+        user.email = request.body.email;
+
+        user.save()
+            .then(() => {
+                response.status(201);
+                response.send();
+            })
+            .catch((error) => {
+                response.status(401);
+                response.send({ error });
+            });
+    });
 };

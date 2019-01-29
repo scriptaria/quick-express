@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
+import { User } from "../../../models/user";
 import { settings } from "../../../settings";
 import { generateTokens } from "../helper";
-import { users } from "../model";
 
 export const postRefresh = (request: Request, response: Response) => {
 
@@ -27,20 +27,18 @@ export const postRefresh = (request: Request, response: Response) => {
             return;
         }
 
-        const tokens = generateTokens(decoded.user.id, settings.auth.secret, settings.auth.expires);
-        const user = users.find((result) => {
-            return result.id === decoded.user;
-        });
+        User.findOne({ id: decoded.user.id })
+            .then((result) => {
+                const { password, ...userWithoutPassword } = result;
+                const tokens = generateTokens(userWithoutPassword.id, settings.auth.secret, settings.auth.expires);
 
-        if (!user) {
-            response.status(400);
-            response.send({ error: "User not found." });
-            return;
-        }
+                response.status(200);
+                response.send({ ...userWithoutPassword, ...tokens });
+            })
+            .catch(() => {
+                response.status(400);
+                response.send({ error: "User not found or password do not match." });
+            });
 
-        const { password, ...userWithoutPassword } = user;
-
-        response.status(200);
-        response.send({ ...userWithoutPassword, ...tokens });
     });
 };

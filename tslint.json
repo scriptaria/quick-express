@@ -3,6 +3,8 @@
         "tslint:recommended"
     ],
     "rules": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "forin": false,
         "interface-name": [
             true,

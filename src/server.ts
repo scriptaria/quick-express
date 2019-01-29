@@ -2,6 +2,8 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as express from "express";
 import { Component } from "interfaces/component";
+import "reflect-metadata";
+import * as TypeORM from "typeorm";
 import * as middlewares from "./middlewares";
 import { routes } from "./routes";
 import { settings } from "./settings";
@@ -10,6 +12,7 @@ class Server {
     public app = express();
     private port: number = settings.port;
     private routes = routes;
+    private orm = TypeORM;
 
     constructor() {
         this.app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,7 +21,43 @@ class Server {
 
         this.defineRoutes();
 
-        this.start();
+        if (!settings.database) {
+            this.start();
+            return;
+        }
+
+        this.setConnection().finally(() => {
+            this.start();
+        });
+    }
+
+    private setConnection(): Promise<any> {
+        return new Promise((resolve) => {
+            const { entities, migrations, ...databaseSettings } = settings.database;
+
+            const newEntities = [];
+            for (const entitie of entities) {
+                newEntities.push(__dirname + entitie + "/*.js");
+            }
+
+            const newMigrations = [];
+            for (const migration of migrations) {
+                newMigrations.push(__dirname + migration + "/*.js");
+            }
+
+            this.orm.createConnection({
+                ...databaseSettings,
+                entities: newEntities,
+                migrations: newMigrations,
+            })
+                .then((connection) => {
+                    resolve(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    resolve(false);
+                });
+        });
     }
 
     private defineRoutes(): void {

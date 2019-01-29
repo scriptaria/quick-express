@@ -1,5 +1,5 @@
 import * as auth from "./components/auth/auth";
-import * as example from "./components/example/example";
+import * as posts from "./components/posts/posts";
 
 /**
  * Here are declared the main routes and their related components.
@@ -11,7 +11,7 @@ export const routes = [
         component: auth,
     },
     {
-        path: "/examples",
-        component: example,
+        path: "/posts",
+        component: posts,
     },
 ];

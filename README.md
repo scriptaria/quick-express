@@ -1,12 +1,10 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/scriptaria/quick-express/badge)](https://www.codefactor.io/repository/github/scriptaria/quick-express)
+
 # Quick Express
 
 A rest API structure made with Express.js ready to use.
 
 # Getting started
-
-## Install your node dependencies
-
-    npm install
 
 ## Configure and understand your project
 
@@ -23,25 +21,34 @@ The `src` folder is the place where your project stays.
 
 The project already have the ability to provide secure authentication
 
-    GET /check/AuthTokenHere - Checks if the token is valid
-    POST /register - Creates a new user account
-    POST /login - Login in a user account with email and password
-    POST /refresh - Used to get a fresh new token
+    GET /auth/check/AuthTokenHere - Checks if the token is valid
+    POST /auth/register - Creates a new user account
+    POST /auth/login - Login in a user account with email and password
+    POST /auth/refresh - Used to get a fresh new token
 
 ------
 
-The project come with a component called `example`, it show you the appropiate way to make a good restful api.
+The project come with a component called `post`, it show you the appropiate way to make a good restful api.
 
-    GET /examples - Retrieves all examples
-    GET /examples/1 - Retrieves a specific example
-    POST /examples - Creates a new example (only works with an authenticated user)
-    PUT /examples/1 - Fully Updates example #1 (only works with an authenticated user)
-    PATCH /examples/1 - Partially updates example #1 (only works with an authenticated user)
-    DELETE /examples/1 - Deletes example #1 (only works with an authenticated user)
+    GET /posts - Retrieves all posts
+    GET /posts/1 - Retrieves a specific post
+    POST /posts - Creates a new post (only works with an authenticated user)
+    PUT /posts/1 - Fully Updates post #1 (only works with an authenticated user)
+    PATCH /posts/1 - Partially updates post #1 (only works with an authenticated user)
+    DELETE /posts/1 - Deletes post #1 (only works with an authenticated user)
 
- ## Running
+## Install your node dependencies
+
+    npm install
+
+## Running
 
     npm start
+
+## Use docker if you prefer
+
+    docker-compose up
+
 
 
 
