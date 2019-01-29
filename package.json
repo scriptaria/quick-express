@@ -1,7 +1,7 @@
 {
     "name": "quick-express",
-    "version": "0.0.1",
-    "description": "A node.js restful api model.",
+    "version": "0.5.0",
+    "description": "A rest API structure made with Express.js ready to use.",
     "main": "build/server.js",
     "scripts": {
         "build": "cleandir build && tsc",
@@ -9,7 +9,11 @@
         "start": "cleandir build && tsc && node build/server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "José Camelo de Freitas <cmpjosf@outlook.com>",
+    "author": {
+        "name": "José Camelo de Freitas",
+        "email": "cmpjosf@outlook.com",
+        "url": "https://scriptaria.com/"
+    },
     "license": "MIT",
     "dependencies": {
         "body-parser": "^1.18.3",
