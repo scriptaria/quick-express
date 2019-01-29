@@ -6,15 +6,8 @@ export const putId = (request: Request, response: Response) => {
     Post.findOne({ id: request.params.id })
         .then((result) => {
 
-            result.title = null;
-            result.body = null;
-
-            if (request.body.title) {
-                result.title = String(request.body.title);
-            }
-            if (request.body.body) {
-                result.body = String(request.body.body);
-            }
+            result.title = request.body.title || null;
+            result.body = request.body.body || null;
 
             result.save()
                 .then((edited) => {

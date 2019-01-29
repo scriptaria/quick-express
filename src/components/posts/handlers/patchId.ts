@@ -6,12 +6,8 @@ export const patchId = (request: Request, response: Response) => {
     Post.findOne({ id: request.params.id })
         .then((result) => {
 
-            if (request.body.title) {
-                result.title = String(request.body.title);
-            }
-            if (request.body.body) {
-                result.body = String(request.body.body);
-            }
+            result.title = request.body.title || result.title;
+            result.body = request.body.body || result.body;
 
             result.save()
                 .then((edited) => {
