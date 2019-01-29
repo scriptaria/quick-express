@@ -1,13 +1,13 @@
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as express from "express";
-import { Route } from "./interfaces/route";
-import { middlewares } from "./middlewares";
+import { Component } from "interfaces/component";
+import * as middlewares from "./middlewares";
 import { routes } from "./routes";
 import { settings } from "./settings";
 
 class Server {
-    private app = express();
+    public app = express();
     private port: number = settings.port;
     private routes = routes;
 
@@ -24,38 +24,32 @@ class Server {
     private defineRoutes(): void {
 
         // made the iteration for main routes
-        for (const route in this.routes) {
-            if (this.routes.hasOwnProperty(route)) {
-                const childrenRoutes = this.routes[route];
-                this.app.use(route, this.getChildrenRoutes(childrenRoutes.routes, route));
-            }
+        for (const route of this.routes) {
+            this.app.use(route.path, this.getComponentRoutes(route.component.routes, route.path));
         }
     }
 
-    private getChildrenRoutes(childrenRoutes: { [name: string]: Route }, parent: string): express.Router {
+    private getComponentRoutes(component: Component, parent: string): express.Router {
 
         const router: express.Router = express.Router();
 
         // made the iteration for the sub routes
-        for (const route in childrenRoutes) {
-            if (childrenRoutes.hasOwnProperty(route)) {
-                const methods = childrenRoutes[route];
+        for (const route in component) {
 
-                // made the iteration for every method that this sub route work for
-                for (const method in methods) {
-                    if (methods.hasOwnProperty(method)) {
+            const methods = component[route];
 
-                        // set the middlewares
-                        if (methods[method].middlewares) {
-                            methods[method].middlewares.forEach((middleware) => {
-                                router[method](route, middlewares[middleware]);
-                            });
-                        }
+            // made the iteration for every method that this sub route work for
+            for (const method in methods) {
 
-                        const handler = methods[method].handler;
-                        router[method](route, handler);
+                // set the middlewares if has any
+                if (methods[method].middlewares) {
+                    for (const middleware of methods[method].middlewares) {
+                        router[method](route, middlewares[middleware]);
                     }
                 }
+
+                // finaly set the final handler of the route
+                router[method](route, methods[method].handler);
             }
         }
 

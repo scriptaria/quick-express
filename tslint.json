@@ -3,12 +3,13 @@
         "tslint:recommended"
     ],
     "rules": {
-        "no-console": false,
+        "forin": false,
         "interface-name": [
             true,
             "never-prefix"
         ],
         "object-literal-sort-keys": false,
+        "no-console": false,
         "no-duplicate-variable": true,
         "no-unused-variable": [
             false

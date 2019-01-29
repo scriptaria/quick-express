@@ -7,11 +7,7 @@
         "outDir": "build",
         "allowJs": true,
         "baseUrl": "./src",
-        "paths": {
-            "@/*": [
-                "./*"
-            ]
-        }
+        "experimentalDecorators": true,
     },
     "exclude": [
         "node_modules",
