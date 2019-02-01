@@ -1,5 +1,5 @@
-import * as auth from "./components/auth/auth";
-import * as posts from "./components/posts/posts";
+import * as auth from "./components/auth";
+import * as posts from "./components/posts";
 
 /**
  * Here are declared the main routes and their related components.

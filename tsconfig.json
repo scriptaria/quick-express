@@ -18,6 +18,6 @@
         "src/**/*.ts",
     ],
     "files": [
-        "src/server.ts"
+        "src/core/bootstrap.ts"
     ]
 }

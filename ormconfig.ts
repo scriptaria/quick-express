@@ -1,15 +1,16 @@
+import * as path from "path";
 import { settings } from "./src/settings";
 
 const { entities, migrations, ...databaseSettings } = settings.database;
 
 const newEntities = [];
 for (const entitie of entities) {
-    newEntities.push(__dirname + "/src" + entitie + "/*.ts");
+    newEntities.push(path.join(__dirname, "/src", entitie + "/*.ts"));
 }
 
 const newMigrations = [];
 for (const migration of migrations) {
-    newMigrations.push(__dirname + "/src" + migration + "/*.ts");
+    newMigrations.push(path.join(__dirname, "/src", migration + "/*.ts"));
 }
 
 module.exports = {

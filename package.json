@@ -3,10 +3,10 @@
     "version": "0.5.0",
     "description": "A rest API structure made with Express.js ready to use.",
     "repository": "github:scriptaria/quick-express",
-    "main": "build/server.js",
+    "main": "build/core/bootstrap.js",
     "scripts": {
         "build": "cleandir build && tsc",
-        "serve": "node build/server.js",
+        "serve": "node build/core/bootstrap.js",
         "orm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "start": "npm run build && npm run orm migration:run && npm run serve",
         "test": "echo \"Error: no test specified\" && exit 1"
