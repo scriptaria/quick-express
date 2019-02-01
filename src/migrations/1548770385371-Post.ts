@@ -21,8 +21,7 @@ export class Post1548770385371 implements MigrationInterface {
                 },
                 {
                     name: "body",
-                    type: "varchar",
-                    length: "200",
+                    type: "text",
                     isNullable: false,
                 },
             ],

@@ -7,8 +7,8 @@
     "scripts": {
         "build": "cleandir build && tsc",
         "serve": "node build/core/bootstrap.js",
-        "orm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-        "start": "npm run build && npm run orm migration:run && npm run serve",
+        "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+        "start": "npm run build && npm run database migration:run && npm run serve",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": {

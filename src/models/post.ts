@@ -9,6 +9,6 @@ export class Post extends BaseEntity {
     @Column({ length: 100, nullable: false })
     public title: string;
 
-    @Column({ length: 100, nullable: false })
+    @Column("text", { nullable: false })
     public body: string;
 }
