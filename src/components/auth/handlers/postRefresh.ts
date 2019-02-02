@@ -27,7 +27,7 @@ export const postRefresh = (request: Request, response: Response) => {
             return;
         }
 
-        User.findOne({ id: decoded.user.id })
+        User.findOne({ id: decoded.user })
             .then((result) => {
                 const { password, ...userWithoutPassword } = result;
                 const tokens = generateTokens(userWithoutPassword.id, settings.auth.secret, settings.auth.expires);
@@ -37,7 +37,7 @@ export const postRefresh = (request: Request, response: Response) => {
             })
             .catch(() => {
                 response.status(400);
-                response.send({ error: "User not found or password do not match." });
+                response.send({ error: "User not found." });
             });
 
     });
