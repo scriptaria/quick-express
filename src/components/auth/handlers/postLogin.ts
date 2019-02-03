@@ -1,5 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { Post } from "../../../models/post";
 import { User } from "../../../models/user";
 import { settings } from "../../../settings";
 import { generateTokens } from "../helper";
@@ -23,11 +24,10 @@ export const postLogin = (request: Request, response: Response) => {
                     return;
                 }
 
-                const { password, ...userWithoutPassword } = user;
-                const tokens = generateTokens(userWithoutPassword.id, settings.auth.secret, settings.auth.expires);
+                const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
 
                 response.status(200);
-                response.send({ ...userWithoutPassword, ...tokens });
+                response.send(tokens);
             });
 
         })

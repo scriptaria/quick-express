@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Post } from "../../../models/post";
+import { User } from "../../../models/user";
 
 export const post = (request: Request, response: Response) => {
 
@@ -13,14 +14,16 @@ export const post = (request: Request, response: Response) => {
     newPost.title = String(request.body.title);
     newPost.body = String(request.body.body);
 
-    newPost.save()
-        .then((result) => {
-            response.status(201);
-            response.send(result);
-        })
-        .catch((error) => {
-            console.warn(error);
-            response.status(500);
-            response.send({ error: "Server error" });
-        });
+    User.findOne({ id: response.locals.user }).then((user) => {
+        newPost.user = user;
+        newPost.save()
+            .then((result) => {
+                response.status(201);
+                response.send(result);
+            })
+            .catch((error) => {
+                response.status(500);
+                response.send({ error: "Server error" });
+            });
+    });
 };

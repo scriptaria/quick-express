@@ -2,7 +2,7 @@ import { DefaultResponse } from "interfaces/defaultResponse";
 import { Secret, VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
 
-export const generateTokens = (userId, secret: string, expires: number): { token: Secret, refreshToken: Secret } => {
+export const generateTokens = (userId, secret: string, expires: number): { token: Secret, refresh: Secret } => {
 
     const token = Jwt.sign(
         {
@@ -12,7 +12,7 @@ export const generateTokens = (userId, secret: string, expires: number): { token
         },
         secret);
 
-    const refreshToken = Jwt.sign(
+    const refresh = Jwt.sign(
         {
             type: "refresh",
             user: userId,
@@ -20,7 +20,7 @@ export const generateTokens = (userId, secret: string, expires: number): { token
         },
         secret);
 
-    return { token, refreshToken };
+    return { token, refresh };
 };
 
 export const decodeToken = (token: string, secret: string): Promise<DefaultResponse> => {

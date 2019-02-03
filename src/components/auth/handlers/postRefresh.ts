@@ -29,11 +29,9 @@ export const postRefresh = (request: Request, response: Response) => {
 
         User.findOne({ id: decoded.user })
             .then((result) => {
-                const { password, ...userWithoutPassword } = result;
-                const tokens = generateTokens(userWithoutPassword.id, settings.auth.secret, settings.auth.expires);
-
+                const tokens = generateTokens(result.id, settings.auth.secret, settings.auth.expires);
                 response.status(200);
-                response.send({ ...userWithoutPassword, ...tokens });
+                response.send(tokens);
             })
             .catch(() => {
                 response.status(400);

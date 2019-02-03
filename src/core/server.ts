@@ -7,6 +7,7 @@ import * as middlewares from "../middlewares";
 
 export class Server {
     public app;
+    private listen: any;
 
     constructor() {
         this.app = express();
@@ -15,9 +16,27 @@ export class Server {
 
     public start(port: number): Promise<DefaultResponse> {
         return new Promise((resolve) => {
-            this.app.listen(port, () => {
+            if (this.listen) {
+                resolve({ success: false, error: "Server already running" });
+                return;
+            }
+
+            this.listen = this.app.listen(port, () => {
                 resolve({ success: true });
             });
+        });
+    }
+
+    public stop(): Promise<DefaultResponse> {
+        return new Promise((resolve) => {
+            if (!this.listen) {
+                resolve({ success: false, error: "Server not running" });
+                return;
+            }
+
+            this.listen.close();
+            delete this.listen;
+            resolve({ success: true });
         });
     }
 

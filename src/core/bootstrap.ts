@@ -3,7 +3,9 @@ import { settings } from "../settings";
 import { Database } from "./database";
 import { Server } from "./server";
 
-const server = new Server();
+const isTesting = process.env.TEST_ENV || false;
+
+export const server = new Server();
 
 if (settings.database) {
     const database = new Database();
@@ -15,6 +17,7 @@ if (settings.database) {
             return;
         }
 
+        if (isTesting) { return; } // not show this console.log if running tests
         console.log("Successful connection with the database");
     });
 
@@ -30,5 +33,6 @@ server.start(settings.port).then((result) => {
         return;
     }
 
+    if (isTesting) { return; } // not show this console.log if running tests
     console.log(`Server running at port ${settings.port}`);
 });

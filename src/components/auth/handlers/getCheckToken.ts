@@ -12,7 +12,7 @@ export const getCheckToken = (request: Request, response: Response) => {
         }
 
         response.status(200);
-        response.send(result.result);
+        response.send({ user: result.result.user });
 
     });
 };
