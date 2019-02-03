@@ -13,7 +13,7 @@ export const postLogin = (request: Request, response: Response) => {
         return;
     }
 
-    User.findOne({ email: request.body.email })
+    User.findOne({ email: request.body.email }, { select: ["id", "password"] })
         .then((user) => {
 
             bcrypt.compare(request.body.password, user.password).then((result) => {

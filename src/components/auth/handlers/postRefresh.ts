@@ -28,8 +28,8 @@ export const postRefresh = (request: Request, response: Response) => {
         }
 
         User.findOne({ id: decoded.user })
-            .then((result) => {
-                const tokens = generateTokens(result.id, settings.auth.secret, settings.auth.expires);
+            .then((user) => {
+                const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
                 response.status(200);
                 response.send(tokens);
             })

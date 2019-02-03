@@ -13,7 +13,7 @@ export class User extends BaseEntity {
     @Column({ length: 50, nullable: false, unique: true })
     public email: string;
 
-    @Column({ length: 100, nullable: false })
+    @Column({ length: 100, nullable: false, select: false })
     public password: string;
 
     @OneToMany((type) => Post, (post) => post.user)

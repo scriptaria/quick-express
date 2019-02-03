@@ -1,29 +1,32 @@
 import { Request, Response } from "express";
 import { Post } from "../../../models/post";
+import { User } from "../../../models/user";
 
 export const putId = (request: Request, response: Response) => {
 
-    Post.findOne({ id: request.params.id })
-        .then((result) => {
+    User.findOne({ id: response.locals.user }).then((user) => {
+        Post.findOne({ id: request.params.id, user })
+            .then((post) => {
 
-            result.title = request.body.title || null;
-            result.body = request.body.body || null;
+                post.title = request.body.title || null;
+                post.body = request.body.body || null;
 
-            result.save()
-                .then((edited) => {
-                    response.status(200);
-                    response.send(edited);
-                })
-                .catch(() => {
-                    response.status(500);
-                    response.send({ error: "Server error" });
-                    return;
-                });
+                post.save()
+                    .then((editedPost) => {
+                        response.status(200);
+                        response.send(editedPost);
+                    })
+                    .catch(() => {
+                        response.status(500);
+                        response.send({ error: "Server error" });
+                        return;
+                    });
 
-        })
-        .catch(() => {
-            response.status(404);
-            response.send({ error: "Post not found!" });
-            return;
-        });
+            })
+            .catch(() => {
+                response.status(404);
+                response.send({ error: "Post not found!" });
+                return;
+            });
+    });
 };

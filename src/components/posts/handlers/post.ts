@@ -10,12 +10,13 @@ export const post = (request: Request, response: Response) => {
         return;
     }
 
-    const newPost = new Post();
-    newPost.title = String(request.body.title);
-    newPost.body = String(request.body.body);
-
     User.findOne({ id: response.locals.user }).then((user) => {
+
+        const newPost = new Post();
+        newPost.title = String(request.body.title);
+        newPost.body = String(request.body.body);
         newPost.user = user;
+
         newPost.save()
             .then((result) => {
                 response.status(201);

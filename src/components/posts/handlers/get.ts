@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { Post } from "../../../models/post";
 
 export const get = (request: Request, response: Response) => {
-    Post.find().then((results) => {
+    Post.find().then((posts) => {
         response.status(200);
-        response.send(results);
+        response.send(posts);
     });
 };

@@ -1,6 +1,6 @@
-import { ColumnType, MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class Post1548770385371 implements MigrationInterface {
+export class Post1548770385372 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.createTable(new Table({
@@ -24,8 +24,19 @@ export class Post1548770385371 implements MigrationInterface {
                     type: "text",
                     isNullable: false,
                 },
+                {
+                    name: "userId",
+                    type: "integer",
+                    isNullable: false,
+                },
             ],
         }), true);
+
+        await queryRunner.createForeignKey("post", new TableForeignKey({
+            columnNames: ["userId"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "user",
+        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {

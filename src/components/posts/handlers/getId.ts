@@ -4,9 +4,9 @@ import { Post } from "../../../models/post";
 export const getId = (request: Request, response: Response) => {
 
     Post.findOne({ id: request.params.id })
-        .then((result) => {
+        .then((post) => {
             response.status(200);
-            response.send(result);
+            response.send(post);
         })
         .catch(() => {
             response.status(404);
