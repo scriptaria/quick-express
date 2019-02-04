@@ -1,4 +1,4 @@
-import { routes } from "../routes";
+import { modules } from "../modules";
 import { settings } from "../settings";
 import { Database } from "./database";
 import { Server } from "./server";
@@ -23,8 +23,8 @@ if (settings.database) {
 
 }
 
-for (const route of routes) {
-    server.setComponent(route.path, route.component);
+for (const module of modules) {
+    server.setComponent(module.path, module.component);
 }
 
 server.start(settings.port).then((result) => {

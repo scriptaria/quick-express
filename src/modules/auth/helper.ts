@@ -1,14 +1,18 @@
 import { DefaultResponse } from "interfaces/defaultResponse";
-import { Secret, VerifyErrors } from "jsonwebtoken";
+import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
 
-export const generateTokens = (userId, secret: string, expires: number): { token: Secret, refresh: Secret } => {
+const generateTimestamp = (minutes: number, hours: number = 1, days: number = 1): number => {
+    return Math.floor(Date.now() / 1000) + (60 * minutes * hours * days);
+};
+
+export const generateTokens = (userId: number, secret: string, expires: number): { token: string, refresh: string } => {
 
     const token = Jwt.sign(
         {
             type: "token",
             user: userId,
-            exp: Math.floor(Date.now() / 1000) + (60 * 30), // 30 minutes expiration
+            exp: generateTimestamp(30),
         },
         secret);
 
@@ -16,7 +20,7 @@ export const generateTokens = (userId, secret: string, expires: number): { token
         {
             type: "refresh",
             user: userId,
-            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * expires),
+            exp: generateTimestamp(60, 24, (expires > 0) ? expires : 1),
         },
         secret);
 
@@ -31,12 +35,7 @@ export const decodeToken = (token: string, secret: string): Promise<DefaultRespo
                 resolve({ success: false, error: error.message });
             }
 
-            if (decoded.type !== "token") {
-                resolve({ success: false, error: "Invalid token" });
-            }
-
             resolve({ success: true, result: decoded });
-
         });
     });
 };

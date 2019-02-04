@@ -12,7 +12,13 @@ export const getCheckToken = (request: Request, response: Response) => {
             return;
         }
 
-        User.find({ id: result.result.user })
+        if (result.result.type !== "token") {
+            response.status(400);
+            response.send({ error: "Not a valid Token" });
+            return;
+        }
+
+        User.findOne({ id: result.result.user })
             .then((user) => {
                 response.status(200);
                 response.send(user);
