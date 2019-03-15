@@ -11,6 +11,7 @@ export const routes: Component = {
     "/": {
 
         get: {
+            middlewares: ["auth"],
             handler: get,
         },
 

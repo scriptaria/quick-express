@@ -30,7 +30,7 @@ The project already have the ability to provide secure authentication
 
 The project come with a component called `tasks`, it show you the appropiate way to make a good restful api.
 
-    GET /tasks - Retrieves all tasks
+    GET /tasks - Retrieves all logged user tasks
     GET /tasks/1 - Retrieves a specific task
     POST /tasks - Creates a new task (only works with an authenticated user)
     PUT /tasks/1 - Fully Updates task #1 (only works with an authenticated user)
