@@ -15,13 +15,13 @@ export const auth = (request: Request, response: Response, next: NextFunction) =
     decodeToken(token, settings.auth.secret).then((result) => {
 
         if (!result.success) {
-            response.status(400);
-            response.send({ error: result.error });
+            response.status(401);
+            response.send({ error: "Failed to decode token." });
             return;
         }
 
         if (result.result.type !== "token") {
-            response.status(400);
+            response.status(401);
             response.send({ error: "Not a valid Token" });
             return;
         }
