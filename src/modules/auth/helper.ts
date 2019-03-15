@@ -6,25 +6,31 @@ const generateTimestamp = (minutes: number, hours: number = 1, days: number = 1)
     return Math.floor(Date.now() / 1000) + (60 * minutes * hours * days);
 };
 
-export const generateTokens = (userId: number, secret: string, expires: number): { token: string, refresh: string } => {
+export const generateTokens = (userId: number, secret: string, expires: number): {
+    token: string,
+    tokenExpires: Date,
+    refresh: string,
+    refreshExpires: Date,
+} => {
 
-    const token = Jwt.sign(
-        {
-            type: "token",
-            user: userId,
-            exp: generateTimestamp(30),
-        },
-        secret);
+    const tokenPayload = {
+        type: "token",
+        user: userId,
+        exp: generateTimestamp(30),
+    };
+    const token = Jwt.sign(tokenPayload, secret);
 
-    const refresh = Jwt.sign(
-        {
-            type: "refresh",
-            user: userId,
-            exp: generateTimestamp(60, 24, (expires > 0) ? expires : 1),
-        },
-        secret);
+    const refreshPayload = {
+        type: "refresh",
+        user: userId,
+        exp: generateTimestamp(60, 24, (expires > 0) ? expires : 1),
+    };
+    const refresh = Jwt.sign(refreshPayload, secret);
 
-    return { token, refresh };
+    const refreshExpires = new Date(refreshPayload.exp * 1000);
+    const tokenExpires = new Date(tokenPayload.exp * 1000);
+
+    return { token, tokenExpires, refresh, refreshExpires };
 };
 
 export const decodeToken = (token: string, secret: string): Promise<DefaultResponse> => {
