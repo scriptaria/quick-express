@@ -1,5 +1,5 @@
 import * as auth from "./modules/auth";
-import * as posts from "./modules/posts";
+import * as tasks from "./modules/tasks";
 import * as users from "./modules/users";
 
 /**
@@ -12,11 +12,11 @@ export const modules = [
         component: auth,
     },
     {
-        path: "/users",
-        component: users,
+        path: "/tasks",
+        component: tasks,
     },
     {
-        path: "/posts",
-        component: posts,
+        path: "/users",
+        component: users,
     },
 ];

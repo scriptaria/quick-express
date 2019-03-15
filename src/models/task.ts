@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "t
 import { User } from "./user";
 
 @Entity()
-export class Post extends BaseEntity {
+export class Task extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     public id: number;
@@ -10,9 +10,9 @@ export class Post extends BaseEntity {
     @Column({ length: 100, nullable: false })
     public title: string;
 
-    @Column("text", { nullable: false })
-    public body: string;
+    @Column({ nullable: false })
+    public done: boolean = false;
 
-    @ManyToOne((type) => User, (user) => user.posts)
+    @ManyToOne((type) => User, (user) => user.tasks)
     public user: User;
 }

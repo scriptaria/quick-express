@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import { Post } from "../../../models/post";
+import { Task } from "../../../models/task";
 
 export const getId = (request: Request, response: Response) => {
 
-    Post.findOne({ id: request.params.id })
-        .then((post) => {
+    Task.findOne({ id: request.params.id })
+        .then((task) => {
             response.status(200);
-            response.send(post);
+            response.send(task);
         })
         .catch(() => {
             response.status(404);
-            response.send({ error: "Post not found!" });
+            response.send({ error: "Task not found!" });
             return;
         });
 };

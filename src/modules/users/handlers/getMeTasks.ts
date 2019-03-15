@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import { Post } from "../../../models/post";
+import { Task } from "../../../models/task";
 import { User } from "../../../models/user";
 
-export const getIdPosts = (request: Request, response: Response) => {
+export const getMeTasks = (request: Request, response: Response) => {
 
-    User.findOne({ id: request.params.id })
+    User.findOne({ id: response.locals.user })
         .then((user) => {
-            Post.find({ user })
-                .then((posts) => {
+            Task.find({ user })
+                .then((tasks) => {
                     response.status(200);
-                    response.send(posts);
+                    response.send(tasks);
                 })
                 .catch(() => {
                     response.status(400);
-                    response.send({ error: "Posts not found!" });
+                    response.send({ error: "Tasks not found!" });
                     return;
                 });
         })

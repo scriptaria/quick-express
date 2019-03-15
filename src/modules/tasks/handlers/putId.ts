@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import { Post } from "../../../models/post";
+import { Task } from "../../../models/task";
 import { User } from "../../../models/user";
 
 export const putId = (request: Request, response: Response) => {
 
     User.findOne({ id: response.locals.user }).then((user) => {
-        Post.findOne({ id: request.params.id, user })
-            .then((post) => {
+        Task.findOne({ id: request.params.id, user })
+            .then((task) => {
 
-                post.title = request.body.title || null;
-                post.body = request.body.body || null;
+                task.title = request.body.title || null;
+                task.done = Boolean(request.body.done) || null;
 
-                post.save()
-                    .then((editedPost) => {
+                task.save()
+                    .then((editedTask) => {
                         response.status(200);
-                        response.send(editedPost);
+                        response.send(editedTask);
                     })
                     .catch(() => {
                         response.status(500);
@@ -25,7 +25,7 @@ export const putId = (request: Request, response: Response) => {
             })
             .catch(() => {
                 response.status(404);
-                response.send({ error: "Post not found!" });
+                response.send({ error: "Task not found!" });
                 return;
             });
     });

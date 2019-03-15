@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class Post1548770385372 implements MigrationInterface {
+export class Task1548770385372 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.createTable(new Table({
-            name: "post",
+            name: "task",
             columns: [
                 {
                     name: "id",
@@ -20,8 +20,9 @@ export class Post1548770385372 implements MigrationInterface {
                     isNullable: false,
                 },
                 {
-                    name: "body",
-                    type: "text",
+                    name: "done",
+                    type: "boolean",
+                    default: false,
                     isNullable: false,
                 },
                 {
@@ -32,7 +33,7 @@ export class Post1548770385372 implements MigrationInterface {
             ],
         }), true);
 
-        await queryRunner.createForeignKey("post", new TableForeignKey({
+        await queryRunner.createForeignKey("task", new TableForeignKey({
             columnNames: ["userId"],
             referencedColumnNames: ["id"],
             referencedTableName: "user",
@@ -40,8 +41,8 @@ export class Post1548770385372 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        const table = await queryRunner.getTable("post");
-        await queryRunner.dropTable("post");
+        const table = await queryRunner.getTable("task");
+        await queryRunner.dropTable("task");
     }
 
 }

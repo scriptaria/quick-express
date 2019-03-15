@@ -1,7 +1,7 @@
 import { Component } from "interfaces/component";
-import { getIdPosts } from "./handlers/getIdPosts";
+import { getIdTasks } from "./handlers/getIdTasks";
 import { getMe } from "./handlers/getMe";
-import { getMePosts } from "./handlers/getMePosts";
+import { getMeTasks } from "./handlers/getMeTasks";
 
 export const routes: Component = {
 
@@ -12,16 +12,16 @@ export const routes: Component = {
         },
     },
 
-    "/me/posts": {
+    "/me/tasks": {
         get: {
             middlewares: ["auth"],
-            handler: getMePosts,
+            handler: getMeTasks,
         },
     },
 
-    "/:id/posts": {
+    "/:id/tasks": {
         get: {
-            handler: getIdPosts,
+            handler: getIdTasks,
         },
     },
 };

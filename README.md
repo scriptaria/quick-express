@@ -28,14 +28,14 @@ The project already have the ability to provide secure authentication
 
 ------
 
-The project come with a component called `post`, it show you the appropiate way to make a good restful api.
+The project come with a component called `tasks`, it show you the appropiate way to make a good restful api.
 
-    GET /posts - Retrieves all posts
-    GET /posts/1 - Retrieves a specific post
-    POST /posts - Creates a new post (only works with an authenticated user)
-    PUT /posts/1 - Fully Updates post #1 (only works with an authenticated user)
-    PATCH /posts/1 - Partially updates post #1 (only works with an authenticated user)
-    DELETE /posts/1 - Deletes post #1 (only works with an authenticated user)
+    GET /tasks - Retrieves all tasks
+    GET /tasks/1 - Retrieves a specific task
+    POST /tasks - Creates a new task (only works with an authenticated user)
+    PUT /tasks/1 - Fully Updates task #1 (only works with an authenticated user)
+    PATCH /tasks/1 - Partially updates task #1 (only works with an authenticated user)
+    DELETE /tasks/1 - Deletes task #1 (only works with an authenticated user)
 
 ## Install your node dependencies
 
