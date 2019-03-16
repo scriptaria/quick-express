@@ -3,36 +3,108 @@ import { settings } from "../settings";
 import { Database } from "./database";
 import { Server } from "./server";
 
-const isTesting = process.env.TEST_ENV || false;
-
 export const server = new Server();
+export const database = new Database();
 
-if (settings.database) {
-    const database = new Database();
-    database.setSettings(settings.database);
-    database.startConnection().then((result) => {
-        if (!result.success) {
-            console.log("Cannot connect to the database");
-            console.log("ERROR: ", result.error);
+export const startDatabase = () => {
+    return new Promise((resolve) => {
+
+        database.setSettings(settings.database);
+        database.start().then((result) => {
+            resolve(result);
+
+            if (!result.success) {
+                console.log("Cannot connect to the database");
+                console.log(result.error);
+                return;
+            }
+
+            console.log("Successful connection with the database");
+        });
+    });
+};
+
+export const startServer = (ambient) => {
+    return new Promise((resolve) => {
+
+        for (const module of modules) {
+            const baseRoute = settings.baseRoute || "";
+            server.setComponent(baseRoute + module.path, module.component);
+        }
+
+        let port = settings.port;
+        if (ambient === "test") {
+            port += 50;
+        }
+
+        server.start(port).then((result) => {
+            resolve(result);
+
+            if (!result.success) {
+                console.log("The server cannot be started");
+                console.log(result.error);
+                return;
+            }
+
+            console.log(`Server running at port ${port}`);
+        });
+    });
+};
+
+export const start = (ambient: string) => {
+
+    return new Promise((resolve) => {
+
+        if (!settings.auth.secret) {
+            console.log("Missing the secret key, open your 'settings.ts' and place it.");
+            resolve({ success: false, error: "Missing secret." });
             return;
         }
 
-        if (isTesting) { return; } // not show this console.log if running tests
-        console.log("Successful connection with the database");
+        const promises = [];
+        if (settings.database) {
+            promises.push(startDatabase());
+        }
+
+        promises.push(startServer(ambient));
+
+        Promise.all(promises)
+            .then((results) => {
+                results.forEach((result) => {
+                    if (!result.success) {
+                        resolve(result);
+                    }
+                });
+
+                resolve({ success: true });
+            });
     });
+};
 
-}
+export const stop = () => {
+    return new Promise((resolve) => {
 
-for (const module of modules) {
-    server.setComponent(module.path, module.component);
-}
+        const promises = [];
+        if (settings.database) {
+            promises.push(database.stop());
+        }
 
-server.start(settings.port).then((result) => {
-    if (!result.success) {
-        console.log("The server cannot be started");
-        return;
-    }
+        promises.push(server.stop());
 
-    if (isTesting) { return; } // not show this console.log if running tests
-    console.log(`Server running at port ${settings.port}`);
+        Promise.all(promises)
+            .then((results) => {
+                results.forEach((result) => {
+                    if (!result.success) {
+                        resolve(result);
+                    }
+                });
+
+                resolve({ success: true });
+            });
+    });
+};
+
+// tslint:disable-next-line:no-var-requires
+require("make-runnable/custom")({
+    printOutputFrame: false,
 });

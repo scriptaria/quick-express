@@ -7,6 +7,7 @@ import { DefaultResponse } from "../interfaces/defaultResponse";
 export class Database {
     private orm;
     private settings: ConnectionOptions;
+    private connection: TypeORM.Connection;
 
     constructor() {
         this.orm = TypeORM;
@@ -28,16 +29,32 @@ export class Database {
         this.settings = { ...databaseSettings, entities: newEntities, migrations: newMigrations };
     }
 
-    public startConnection(): Promise<DefaultResponse> {
+    public start(): Promise<DefaultResponse> {
         return new Promise((resolve) => {
 
             this.orm.createConnection(this.settings)
                 .then((connection) => {
+
+                    this.connection = connection;
+
                     resolve({ success: true });
                 })
                 .catch((error) => {
-                    resolve({ success: false, error });
+                    resolve({ success: false, error: error.code });
                 });
+        });
+    }
+
+    public stop(): Promise<DefaultResponse> {
+        return new Promise((resolve) => {
+            if (this.connection) {
+                this.connection.close().then(() => {
+                    resolve({ success: true });
+                });
+                return;
+            }
+
+            resolve({ success: false, error: "No open connection to close" });
         });
     }
 

@@ -1,5 +1,5 @@
 import * as request from "supertest";
-import { server } from "../../core/bootstrap";
+import * as bootstrap from "../../core/bootstrap";
 import { settings } from "../../settings";
 import * as helper from "./helper";
 
@@ -11,12 +11,25 @@ describe("Auth module", () => {
     let access;
     let refresh;
 
-    before(() => {
-        server.start(settings.port);
+    before(function (done) {
+        this.timeout(60000);
+        bootstrap.start("test").then((result: any) => {
+            if (!result.success) {
+                done(new Error(result.error));
+                return;
+            }
+            done();
+        });
     });
 
-    after(() => {
-        server.stop();
+    after((done) => {
+        bootstrap.stop().then((result: any) => {
+            if (!result.success) {
+                done(new Error(result.error));
+                return;
+            }
+            done();
+        });
     });
 
     describe("Helper", () => {
@@ -57,7 +70,7 @@ describe("Auth module", () => {
 
     describe("POST /auth/register", () => {
         it("Should register a new user", (done) => {
-            request(server.app)
+            request(bootstrap.server.app)
                 .post("/auth/register")
                 .send({ email, password, name })
                 .expect(201)
@@ -72,7 +85,7 @@ describe("Auth module", () => {
 
     describe("POST /auth/login", () => {
         it("Should login the new user", (done) => {
-            request(server.app)
+            request(bootstrap.server.app)
                 .post("/auth/login")
                 .send({ email, password })
                 .expect(200)
@@ -93,7 +106,7 @@ describe("Auth module", () => {
 
     describe("GET /auth/check/:access", () => {
         it("Should say that is a VALID access token", (done) => {
-            request(server.app)
+            request(bootstrap.server.app)
                 .get(`/auth/check/${access}`)
                 .expect(200)
                 .expect((response) => {
@@ -110,7 +123,7 @@ describe("Auth module", () => {
         });
 
         it("Should say that is an INVALID token", (done) => {
-            request(server.app)
+            request(bootstrap.server.app)
                 .get("/auth/check/invalidtokenexample")
                 .expect(400)
                 .expect((response) => {
@@ -127,7 +140,7 @@ describe("Auth module", () => {
 
     describe("POST /auth/refresh", () => {
         it("Should says that is a VALID refresh token", (done) => {
-            request(server.app)
+            request(bootstrap.server.app)
                 .post("/auth/refresh")
                 .send({ refresh })
                 .expect(200)
@@ -146,7 +159,7 @@ describe("Auth module", () => {
         });
 
         it("Should says that is an INVALID refresh token", (done) => {
-            request(server.app)
+            request(bootstrap.server.app)
                 .post("/auth/refresh")
                 .send({ refresh: "AnInvalidRefreshToken" })
                 .expect(400)

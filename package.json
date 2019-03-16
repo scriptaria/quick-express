@@ -6,7 +6,7 @@
     "main": "build/core/bootstrap.js",
     "scripts": {
         "build": "cleandir build && tsc",
-        "serve": "node build/core/bootstrap.js",
+        "serve": "node build/core/bootstrap.js start prod",
         "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "start": "npm run build && npm run database migration:run && npm run serve",
         "test": "npm run build && npm run database migration:run && cross-env TEST_ENV=test mocha \"build/modules/**/spec.js\""
@@ -23,6 +23,7 @@
         "cors": "^2.8.5",
         "express": "^4.16.4",
         "jsonwebtoken": "^8.4.0",
+        "make-runnable": "1.3.6",
         "reflect-metadata": "^0.1.13",
         "sqlite3": "^4.0.6",
         "typeorm": "^0.2.12"
