@@ -3,8 +3,8 @@ import { User } from "../../../models/user";
 import { settings } from "../../../settings";
 import { decodeToken } from "../helper";
 
-export const getCheckToken = (request: Request, response: Response) => {
-    decodeToken(request.params.token, settings.auth.secret).then((result) => {
+export const getCheckAccess = (request: Request, response: Response) => {
+    decodeToken(request.params.access, settings.auth.secret).then((result) => {
 
         if (!result.success) {
             response.status(400);
@@ -12,9 +12,9 @@ export const getCheckToken = (request: Request, response: Response) => {
             return;
         }
 
-        if (result.result.type !== "token") {
+        if (result.result.type !== "access") {
             response.status(400);
-            response.send({ error: "Not a valid Token" });
+            response.send({ error: "Not a valid access token" });
             return;
         }
 

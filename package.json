@@ -9,7 +9,7 @@
         "serve": "node build/core/bootstrap.js",
         "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "start": "npm run build && npm run database migration:run && npm run serve",
-        "test": "npm run build && npm run database migration:run && cross-env TEST_ENV=test mocha \"build/modules/**/spec.js\""
+        "test": "npm run build && npm run database migration:run && cross-env TEST_ENV=test mocha \"build/modules/**/spec.js\""
     },
     "author": {
         "name": "José Camelo de Freitas",

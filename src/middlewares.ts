@@ -20,9 +20,9 @@ export const auth = (request: Request, response: Response, next: NextFunction) =
             return;
         }
 
-        if (result.result.type !== "token") {
+        if (result.result.type !== "access") {
             response.status(401);
-            response.send({ error: "Not a valid Token" });
+            response.send({ error: "Not a valid access token" });
             return;
         }
 

@@ -7,18 +7,18 @@ const generateTimestamp = (minutes: number, hours: number = 1, days: number = 1)
 };
 
 export const generateTokens = (userId: number, secret: string, expires: number): {
-    token: string,
-    tokenExpires: Date,
+    access: string,
+    accessExpires: Date,
     refresh: string,
     refreshExpires: Date,
 } => {
 
-    const tokenPayload = {
-        type: "token",
+    const accessPayload = {
+        type: "access",
         user: userId,
         exp: generateTimestamp(30),
     };
-    const token = Jwt.sign(tokenPayload, secret);
+    const access = Jwt.sign(accessPayload, secret);
 
     const refreshPayload = {
         type: "refresh",
@@ -28,9 +28,9 @@ export const generateTokens = (userId: number, secret: string, expires: number):
     const refresh = Jwt.sign(refreshPayload, secret);
 
     const refreshExpires = new Date(refreshPayload.exp * 1000);
-    const tokenExpires = new Date(tokenPayload.exp * 1000);
+    const accessExpires = new Date(accessPayload.exp * 1000);
 
-    return { token, tokenExpires, refresh, refreshExpires };
+    return { access, accessExpires, refresh, refreshExpires };
 };
 
 export const decodeToken = (token: string, secret: string): Promise<DefaultResponse> => {

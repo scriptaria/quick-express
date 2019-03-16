@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { User } from "models/user";
 import { Task } from "../../../models/task";
+import { User } from "../../../models/user";
 
 export const get = (request: Request, response: Response) => {
     User.findOne({ id: response.locals.user })
