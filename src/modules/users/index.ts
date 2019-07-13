@@ -1,4 +1,4 @@
-import { Component } from "interfaces/component";
+import { Component } from "../../core/interfaces";
 import { getIdTasks } from "./handlers/getIdTasks";
 import { getMe } from "./handlers/getMe";
 

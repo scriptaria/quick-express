@@ -1,10 +1,12 @@
 import { modules } from "../modules";
 import { settings } from "../settings";
 import { Database } from "./database";
+import { Events } from "./events";
 import { Server } from "./server";
 
-export const server = new Server();
 export const database = new Database();
+export const server = new Server(database);
+export const events = new Events();
 
 export const startDatabase = () => {
     return new Promise((resolve) => {
@@ -19,6 +21,7 @@ export const startDatabase = () => {
                 return;
             }
 
+            events.send("databaseReady");
             console.log("Successful connection with the database");
         });
     });
@@ -46,6 +49,7 @@ export const startServer = (ambient) => {
                 return;
             }
 
+            events.send("serverReady");
             console.log(`Server running at port ${port}`);
         });
     });
@@ -76,6 +80,7 @@ export const start = (ambient: string) => {
                     }
                 });
 
+                events.send("applicationReady");
                 resolve({ success: true });
             });
     });

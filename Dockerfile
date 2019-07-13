@@ -1,8 +1,6 @@
 FROM node:10
-ADD . /home/node/app
-WORKDIR /home/node/app
-RUN apt-get update  \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY . /app/
 RUN npm install
-CMD [ "npm", "start" ]
+CMD npm run start
+EXPOSE 4000

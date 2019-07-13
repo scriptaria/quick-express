@@ -1,15 +1,22 @@
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as express from "express";
-import { Component } from "../interfaces/component";
-import { DefaultResponse } from "../interfaces/defaultResponse";
+import { NextFunction, Request, Response } from "express";
 import * as middlewares from "../middlewares";
+import { Database } from "./database";
+import { Component, DefaultResponse } from "./interfaces";
 
 export class Server {
+
     public app;
     private listen: any;
 
-    constructor() {
+    private requests: number = 0;
+    private instance = ("_" + Math.random().toString(36).substr(2, 9)).toLocaleUpperCase();
+    private database: Database;
+
+    constructor(database: Database = null) {
+        this.database = database;
         this.app = express();
         this.config();
     }
@@ -45,9 +52,29 @@ export class Server {
     }
 
     private config(): void {
+
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
         this.app.use(cors());
+
+        this.app.use((request: Request, response: Response, next: NextFunction) => {
+            response.setHeader("Instance", this.instance);
+            this.requests++;
+            next();
+        });
+
+        this.app.get("/status", (request: Request, response: Response) => {
+
+            const data = {
+                database: this.database.connection ? this.database.connection.isConnected : "none",
+                instance: this.instance,
+                requests: this.requests,
+            };
+
+            response.status(200);
+            response.send(data);
+        });
+
     }
 
     private getComponentRoutes(component: Component, parent: string): express.Router {

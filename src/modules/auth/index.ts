@@ -1,4 +1,4 @@
-import { Component } from "interfaces/component";
+import { Component } from "../../core/interfaces";
 import { getCheckAccess } from "./handlers/getCheckAccess";
 import { postLogin } from "./handlers/postLogin";
 import { postRefresh } from "./handlers/postRefresh";

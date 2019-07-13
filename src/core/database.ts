@@ -2,12 +2,13 @@ import * as path from "path";
 import "reflect-metadata";
 import * as TypeORM from "typeorm";
 import { ConnectionOptions } from "typeorm";
-import { DefaultResponse } from "../interfaces/defaultResponse";
+import { DefaultResponse } from "./interfaces";
 
 export class Database {
-    private orm;
+
+    public connection: TypeORM.Connection;
+    private orm: any;
     private settings: ConnectionOptions;
-    private connection: TypeORM.Connection;
 
     constructor() {
         this.orm = TypeORM;

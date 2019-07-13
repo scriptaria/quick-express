@@ -1,6 +1,7 @@
-import { DefaultResponse } from "interfaces/defaultResponse";
 import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
+import { DefaultResponse } from "../../core/interfaces";
+import { settings } from "../../settings";
 
 const generateTimestamp = (minutes: number, hours: number = 1, days: number = 1): number => {
     return Math.floor(Date.now() / 1000) + (60 * minutes * hours * days);
@@ -16,7 +17,7 @@ export const generateTokens = (userId: number, secret: string, expires: number):
     const accessPayload = {
         type: "access",
         user: userId,
-        exp: generateTimestamp(30),
+        exp: generateTimestamp(settings.auth.expires),
     };
     const access = Jwt.sign(accessPayload, secret);
 
