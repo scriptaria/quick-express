@@ -1,13 +1,8 @@
-import { ConnectionOptions } from "typeorm";
+import { BaseSettings } from "../core/interfaces";
 
-export interface Settings {
-    port: number;
-    baseRoute: string;
-    domain?: string;
-    ssl?: boolean;
+export interface Settings extends BaseSettings {
     auth: {
         secret: string,
         expires: number,
     };
-    database?: ConnectionOptions;
 }

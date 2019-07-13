@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Subject } from "rxjs";
+import { ConnectionOptions } from "typeorm";
 
 export interface EventList {
     [key: string]: Subject<any>;
@@ -21,4 +22,12 @@ export interface DefaultResponse {
     success: boolean;
     error?: string;
     result?: any;
+}
+
+export interface BaseSettings {
+    port: number;
+    baseRoute: string;
+    domain?: string;
+    ssl?: boolean;
+    database?: ConnectionOptions;
 }
