@@ -18,5 +18,4 @@ export class User extends BaseEntity {
 
     @OneToMany((type) => Task, (task) => task.user)
     public tasks: Task[];
-
 }

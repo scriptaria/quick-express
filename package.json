@@ -9,7 +9,8 @@
         "serve": "node build/core/bootstrap.js start prod",
         "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "start": "npm run build && npm run serve",
-        "test": "npm run build && cross-env TEST_ENV=test mocha \"build/modules/**/spec.js\""
+        "test": "npm run build && cross-env TEST_ENV=test mocha \"build/modules/**/spec.js\"",
+        "quick": "ts-node src/core/cli.ts"
     },
     "author": {
         "name": "José Camelo de Freitas",
@@ -36,10 +37,13 @@
         "@types/jsonwebtoken": "^8.3.2",
         "@types/mocha": "5.2.7",
         "@types/node": "^10.12.18",
+        "@types/slug": "^0.9.1",
         "@types/supertest": "^2.0.8",
+        "camelcase": "^5.3.1",
         "clean-dir": "^1.0.3",
         "cross-env": "^5.2.0",
         "mocha": "^5.2.0",
+        "slug": "^1.1.0",
         "supertest": "^4.0.2",
         "ts-node": "^8.3.0",
         "tsconfig-paths": "^3.8.0",

@@ -6,6 +6,11 @@ export interface EventList {
     [key: string]: Subject<any>;
 }
 
+export interface Replacement {
+    regex: RegExp;
+    value: string;
+}
+
 export interface Route {
     delete?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };
     get?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };

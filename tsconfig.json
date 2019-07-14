@@ -8,7 +8,7 @@
         "moduleResolution": "node",
         "outDir": "build",
         "sourceMap": true,
-        "target": "es2018",
+        "target": "es2018"
     },
     "exclude": [
         "node_modules",
