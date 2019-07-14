@@ -37,6 +37,13 @@ The project come with a component called `tasks`, it show you the appropiate way
     PATCH /tasks/1 - Partially updates task #1 (only works with an authenticated user)
     DELETE /tasks/1 - Deletes task #1 (only works with an authenticated user)
 
+## CLI Tool
+
+Quick Express comes with a simple CLI tool to generate components such as Models and Modules, take a try:
+
+    npm run quick generate module exampleModule
+    npm run quick generate model exampleModel
+
 ## Install your node dependencies
 
     npm install
