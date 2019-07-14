@@ -14,8 +14,9 @@ The `src` folder is the place where your project stays.
    * Put any random in string `auth.secret`, it will serve to generate authentication tokens
      *  The larger and more variety of characters (including special characters), the safer it will be.
  * Set your routes and point them to his component in `src/settings.ts`
- * Place your components in `src/components/`
- * Place your middlerates in `src/middlewares.ts`
+ * Place your modules in `src/modules/` and describe them in `src/modules.ts`
+ * Your models stay at `src/models/`. Quick Express comes with TypeORM as its default ORM
+ * Place your middlewares in `src/middlewares.ts`
 
 ------
 
