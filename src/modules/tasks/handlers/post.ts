@@ -10,7 +10,7 @@ export const post = (request: Request, response: Response) => {
         return;
     }
 
-    User.findOne({ id: response.locals.user }).then((user) => {
+    User.findOne({ id: response.locals.userId }).then((user) => {
 
         const newTask = new Task();
         newTask.title = String(request.body.title);

@@ -26,7 +26,7 @@ export const auth = (request: Request, response: Response, next: NextFunction) =
             return;
         }
 
-        response.locals.user = result.result.user;
+        response.locals.userId = result.result.user;
 
         next();
     });

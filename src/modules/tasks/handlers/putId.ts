@@ -4,7 +4,7 @@ import { User } from "../../../models/user";
 
 export const putId = (request: Request, response: Response) => {
 
-    User.findOne({ id: response.locals.user }).then((user) => {
+    User.findOne({ id: response.locals.userId }).then((user) => {
         Task.findOne({ id: request.params.id, user })
             .then((task) => {
 

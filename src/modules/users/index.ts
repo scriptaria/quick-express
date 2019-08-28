@@ -1,6 +1,6 @@
 import { Component } from "../../core/interfaces";
+import { getId } from "./handlers/getId";
 import { getIdTasks } from "./handlers/getIdTasks";
-import { getMe } from "./handlers/getMe";
 import { post } from "./handlers/post";
 import { postLogin } from "./handlers/postLogin";
 import { postRefresh } from "./handlers/postRefresh";
@@ -28,7 +28,7 @@ export const routes: Component = {
     "/:id": {
         get: {
             middlewares: ["auth"],
-            handler: getMe,
+            handler: getId,
         },
     },
 

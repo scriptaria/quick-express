@@ -3,7 +3,7 @@ import { Task } from "../../../models/task";
 import { User } from "../../../models/user";
 
 export const get = (request: Request, response: Response) => {
-    User.findOne({ id: response.locals.user })
+    User.findOne({ id: response.locals.userId })
         .then((user) => {
             Task.find({ user })
                 .then((tasks) => {
