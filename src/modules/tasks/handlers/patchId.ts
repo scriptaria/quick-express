@@ -1,32 +1,31 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
-import { User } from "../../../models/user";
 
-export const patchId = (request: Request, response: Response) => {
+export const patchId = async (request: Request, response: Response) => {
 
-    User.findOne({ id: response.locals.userId }).then((user) => {
-        Task.findOne({ id: request.params.id, user })
-            .then((task) => {
+    const task: Task = await Task.findOne({ id: request.params.id }, { relations: ["user"] }).catch(() => null);
 
-                task.title = request.body.title || task.title;
-                task.done = request.body.done || task.done;
+    if (!task) {
+        response.status(404);
+        response.send({ error: "Task not found!" });
+        return;
+    }
 
-                task.save()
-                    .then((editedTask) => {
-                        response.status(200);
-                        response.send(editedTask);
-                    })
-                    .catch(() => {
-                        response.status(500);
-                        response.send({ error: "Server error" });
-                        return;
-                    });
+    if (task.user.id !== response.locals.userId) {
+        response.status(403);
+        response.send({ error: "Not allowed." });
+        return;
+    }
 
-            })
-            .catch(() => {
-                response.status(404);
-                response.send({ error: "Task not found!" });
-                return;
-            });
-    });
+    task.title = request.body.title || task.title;
+    task.done = "done" in request.body ? request.body.done : task.done;
+
+    if (!await task.save().catch(() => null)) {
+        response.status(500);
+        response.send({ error: "Server error" });
+        return;
+    }
+
+    response.status(200);
+    response.send(task);
 };

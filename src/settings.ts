@@ -10,11 +10,11 @@ export const settings: Settings = {
     database: {
         synchronize: true,
         type: "mysql",
-        host: "example.com",
-        port: 3306,
-        username: "root",
-        password: "",
-        database: "quick",
+        host: "mysql669.umbler.com",
+        port: 41890,
+        username: "backend",
+        password: "vancouver2020",
+        database: "vancouver-sql",
         entities: [
             "/models",
         ],

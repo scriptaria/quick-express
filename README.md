@@ -33,8 +33,7 @@ The project come with a component called `tasks`, it show you the appropiate way
     GET /tasks - Retrieves all logged user tasks
     GET /tasks/1 - Retrieves a specific task
     POST /tasks - Creates a new task (only works with an authenticated user)
-    PUT /tasks/1 - Fully Updates task #1 (only works with an authenticated user)
-    PATCH /tasks/1 - Partially updates task #1 (only works with an authenticated user)
+    PATCH /tasks/1 - Updates task #1 (only works with an authenticated user)
     DELETE /tasks/1 - Deletes task #1 (only works with an authenticated user)
 
 ## CLI Tool

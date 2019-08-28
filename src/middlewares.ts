@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { User } from "./models/user";
 import { decodeToken } from "./modules/users/helper";
 import { settings } from "./settings";
 
@@ -12,7 +13,7 @@ export const auth = (request: Request, response: Response, next: NextFunction) =
 
     const token = request.headers.authorization.replace("Bearer ", "");
 
-    decodeToken(token, settings.auth.secret).then((result) => {
+    decodeToken(token, settings.auth.secret).then(async (result) => {
 
         if (!result.success) {
             response.status(401);
@@ -27,6 +28,7 @@ export const auth = (request: Request, response: Response, next: NextFunction) =
         }
 
         response.locals.userId = result.result.user;
+        response.locals.user = await User.findOne({ id: response.locals.userId }).catch(() => null);
 
         next();
     });

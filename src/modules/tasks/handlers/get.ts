@@ -1,24 +1,16 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
-import { User } from "../../../models/user";
 
-export const get = (request: Request, response: Response) => {
-    User.findOne({ id: response.locals.userId })
-        .then((user) => {
-            Task.find({ user })
-                .then((tasks) => {
-                    response.status(200);
-                    response.send(tasks);
-                })
-                .catch(() => {
-                    response.status(400);
-                    response.send({ error: "Tasks not found!" });
-                    return;
-                });
-        })
-        .catch(() => {
-            response.status(404);
-            response.send({ error: "User not found!" });
-            return;
-        });
+export const get = async (request: Request, response: Response) => {
+
+    const tasks = await Task.find({ user: response.locals.user }).catch(() => null);
+
+    if (!tasks) {
+        response.status(500);
+        response.send({ error: "An error has occurred." });
+        return;
+    }
+
+    response.status(200);
+    response.send(tasks);
 };

@@ -1,16 +1,23 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
 
-export const getId = (request: Request, response: Response) => {
+export const getId = async (request: Request, response: Response) => {
 
-    Task.findOne({ id: request.params.id })
-        .then((task) => {
-            response.status(200);
-            response.send(task);
-        })
-        .catch(() => {
-            response.status(404);
-            response.send({ error: "Task not found!" });
-            return;
-        });
+    const task: Task = await Task.findOne({ id: request.params.id }, { relations: ["user"] }).catch(() => null);
+
+    if (!task) {
+        response.status(404);
+        response.send({ error: "Task not found!" });
+        return;
+    }
+
+    if (task.user.id !== response.locals.userId) {
+        response.status(403);
+        response.send({ error: "Not allowed." });
+        return;
+    }
+
+    delete (task.user);
+    response.status(200);
+    response.send(task);
 };

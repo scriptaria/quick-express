@@ -4,7 +4,6 @@ import { get } from "./handlers/get";
 import { getId } from "./handlers/getId";
 import { patchId } from "./handlers/patchId";
 import { post } from "./handlers/post";
-import { putId } from "./handlers/putId";
 
 export const routes: Component = {
 
@@ -25,17 +24,13 @@ export const routes: Component = {
     "/:id": {
 
         get: {
+            middlewares: ["auth"],
             handler: getId,
         },
 
         patch: {
             middlewares: ["auth"],
             handler: patchId,
-        },
-
-        put: {
-            middlewares: ["auth"],
-            handler: putId,
         },
 
         delete: {

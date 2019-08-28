@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
-import { User } from "../../../models/user";
 
-export const post = (request: Request, response: Response) => {
+export const post = async (request: Request, response: Response) => {
 
     if (!request.body.title) {
         response.status(400);
@@ -10,22 +9,18 @@ export const post = (request: Request, response: Response) => {
         return;
     }
 
-    User.findOne({ id: response.locals.userId }).then((user) => {
+    const task = new Task();
+    task.title = String(request.body.title);
+    task.done = Boolean(request.body.done);
+    task.user = response.locals.user;
 
-        const newTask = new Task();
-        newTask.title = String(request.body.title);
-        newTask.done = Boolean(request.body.done);
-        newTask.user = user;
+    if (!await task.save().catch(() => null)) {
+        response.status(500);
+        response.send({ error: "Server error" });
+        return;
+    }
 
-        newTask.save()
-            .then((result) => {
-                response.status(201);
-                response.send(result);
-            })
-            .catch((error) => {
-                console.log(error);
-                response.status(500);
-                response.send({ error: "Server error" });
-            });
-    });
+    delete (task.user);
+    response.status(201);
+    response.send(task);
 };
