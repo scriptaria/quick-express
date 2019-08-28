@@ -13,7 +13,7 @@ export const postRefresh = (request: Request, response: Response) => {
         return;
     }
 
-    Jwt.verify(request.body.refresh, settings.auth.secret, (error: VerifyErrors, decoded: any) => {
+    Jwt.verify(request.body.refresh, settings.auth.secret, async (error: VerifyErrors, decoded: any) => {
 
         if (error) {
             response.status(400);
@@ -27,16 +27,16 @@ export const postRefresh = (request: Request, response: Response) => {
             return;
         }
 
-        User.findOne({ id: decoded.user })
-            .then((user) => {
-                const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
-                response.status(200);
-                response.send(tokens);
-            })
-            .catch(() => {
-                response.status(400);
-                response.send({ error: "User not found." });
-            });
+        const user: User = await User.findOne({ id: decoded.user }).catch(() => null);
 
+        if (!user) {
+            response.status(400);
+            response.send({ error: "User not found." });
+            return;
+        }
+
+        const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
+        response.status(200);
+        response.send(tokens);
     });
 };
