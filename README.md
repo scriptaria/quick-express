@@ -22,10 +22,9 @@ The `src` folder is the place where your project stays.
 
 The project already have the ability to provide secure authentication
 
-    GET /auth/check/AuthTokenHere - Checks if the token is valid
-    POST /auth/register - Creates a new user account
-    POST /auth/login - Login in a user account with email and password
-    POST /auth/refresh - Used to get a fresh new token
+    POST /users - Create a new user
+    POST /users/login - Login with email and password`
+    POST /users/refresh - Get new access and refresh tokens
 
 ------
 

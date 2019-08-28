@@ -1,4 +1,3 @@
-import * as auth from "./modules/auth";
 import * as tasks from "./modules/tasks";
 import * as users from "./modules/users";
 
@@ -8,15 +7,11 @@ import * as users from "./modules/users";
  */
 export const modules = [
     {
-        path: "/auth",
-        component: auth,
+        path: "/users",
+        component: users,
     },
     {
         path: "/tasks",
         component: tasks,
-    },
-    {
-        path: "/users",
-        component: users,
     },
 ];

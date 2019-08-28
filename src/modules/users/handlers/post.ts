@@ -2,7 +2,7 @@ import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { User } from "../../../models/user";
 
-export const postRegister = (request: Request, response: Response) => {
+export const post = (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password || !request.body.name) {
         response.status(400);

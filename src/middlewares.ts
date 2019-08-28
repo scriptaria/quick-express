@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { decodeToken } from "./modules/auth/helper";
+import { decodeToken } from "./modules/users/helper";
 import { settings } from "./settings";
 
 export const auth = (request: Request, response: Response, next: NextFunction) => {
