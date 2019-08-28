@@ -28,13 +28,13 @@ The project already have the ability to provide secure authentication
 
 ------
 
-The project come with a component called `tasks`, it show you the appropiate way to make a good restful api.
+The project come with a component called `tasks`, it show you the appropiate way to make a good restful api. This endpoints only works with authenticated users.
 
     GET /tasks - Retrieves all logged user tasks
     GET /tasks/1 - Retrieves a specific task
-    POST /tasks - Creates a new task (only works with an authenticated user)
-    PATCH /tasks/1 - Updates task #1 (only works with an authenticated user)
-    DELETE /tasks/1 - Deletes task #1 (only works with an authenticated user)
+    POST /tasks - Creates a new task
+    PATCH /tasks/1 - Updates task #1
+    DELETE /tasks/1 - Deletes task #1
 
 ## CLI Tool
 

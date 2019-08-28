@@ -8,7 +8,6 @@ import { post } from "./handlers/post";
 export const routes: Component = {
 
     "/": {
-
         get: {
             middlewares: ["auth"],
             handler: get,
@@ -18,11 +17,9 @@ export const routes: Component = {
             middlewares: ["auth"],
             handler: post,
         },
-
     },
 
     "/:id": {
-
         get: {
             middlewares: ["auth"],
             handler: getId,
@@ -37,6 +34,5 @@ export const routes: Component = {
             middlewares: ["auth"],
             handler: deleteId,
         },
-
     },
 };
