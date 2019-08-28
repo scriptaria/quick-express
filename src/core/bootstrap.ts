@@ -1,12 +1,11 @@
 import { modules } from "../modules";
 import { settings } from "../settings";
 import { Database } from "./database";
-import { Events } from "./events";
+import * as events from "./events";
 import { Server } from "./server";
 
 export const database = new Database();
 export const server = new Server(database);
-export const events = new Events();
 
 export const startDatabase = () => {
     return new Promise((resolve) => {

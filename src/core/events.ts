@@ -1,27 +1,23 @@
 import { Subject } from "rxjs";
 import { EventList } from "./interfaces";
 
-export class Events {
-    private events: EventList = {};
+const events: EventList = {};
 
-    public listen(eventKey: string): Subject<any> {
+export const listen = (eventKey: string): Subject<any> => {
 
-        if (!(eventKey in this.events)) {
-            const event = new Subject();
-            this.events[eventKey] = event;
-        }
-
-        return this.events[eventKey];
+    if (!(eventKey in events)) {
+        const event = new Subject();
+        events[eventKey] = event;
     }
 
-    public send(eventKey: string, data: any = null): any {
+    return events[eventKey];
+};
 
-        if (!(eventKey in this.events)) {
-            const event = new Subject();
-            this.events[eventKey] = event;
-        }
+export const send = (eventKey: string, data: any = null): any => {
 
-        return this.events[eventKey].next(data);
+    if (!(eventKey in events)) {
+        const event = new Subject();
+        events[eventKey] = event;
     }
-
-}
+    return events[eventKey].next(data);
+};
