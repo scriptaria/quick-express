@@ -9,7 +9,7 @@ export const postRefresh = (request: Request, response: Response) => {
 
     if (!request.body.refresh) {
         response.status(400);
-        response.send({ error: "Missing paramters." });
+        response.send({ error: settings.defaultMessages.missingParamters });
         return;
     }
 
@@ -30,8 +30,8 @@ export const postRefresh = (request: Request, response: Response) => {
         const user: User = await User.findOne({ id: decoded.user }).catch(() => null);
 
         if (!user) {
-            response.status(400);
-            response.send({ error: "User not found." });
+            response.status(404);
+            response.send({ error: settings.defaultMessages.notFound });
             return;
         }
 

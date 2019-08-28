@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
+import { settings } from "../../../settings";
 
 export const post = async (request: Request, response: Response) => {
 
     if (!request.body.title) {
         response.status(400);
-        response.send({ error: "Missing paramters" });
+        response.send({ error: settings.defaultMessages.missingParamters });
         return;
     }
 
@@ -16,7 +17,7 @@ export const post = async (request: Request, response: Response) => {
 
     if (!await task.save().catch(() => null)) {
         response.status(500);
-        response.send({ error: "Server error" });
+        response.send({ error: settings.defaultMessages.serverError });
         return;
     }
 

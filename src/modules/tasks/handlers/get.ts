@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
+import { settings } from "../../../settings";
 
 export const get = async (request: Request, response: Response) => {
 
@@ -7,7 +8,7 @@ export const get = async (request: Request, response: Response) => {
 
     if (!tasks) {
         response.status(500);
-        response.send({ error: "An error has occurred." });
+        response.send({ error: settings.defaultMessages.serverError });
         return;
     }
 

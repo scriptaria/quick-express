@@ -1,12 +1,13 @@
 import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { User } from "../../../models/user";
+import { settings } from "../../../settings";
 
 export const post = async (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password || !request.body.name) {
         response.status(400);
-        response.send({ error: "Missing paramters." });
+        response.send({ error: settings.defaultMessages.missingParamters });
         return;
     }
 
@@ -17,7 +18,7 @@ export const post = async (request: Request, response: Response) => {
 
     if (!await user.save().catch(() => null)) {
         response.status(400);
-        response.send({ error: "Failed to save user." });
+        response.send({ error: settings.defaultMessages.failedToSave });
         return;
     }
 

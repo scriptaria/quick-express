@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Task } from "../../../models/task";
 import { User } from "../../../models/user";
+import { settings } from "../../../settings";
 
 export const getIdTasks = async (request: Request, response: Response) => {
 
@@ -10,15 +11,15 @@ export const getIdTasks = async (request: Request, response: Response) => {
 
     if (!user) {
         response.status(404);
-        response.send({ error: "User not found!" });
+        response.send({ error: settings.defaultMessages.notFound });
         return;
     }
 
     const tasks: Task = await Task.find({ user }).catch(() => null);
 
     if (!tasks) {
-        response.status(400);
-        response.send({ error: "Tasks not found!" });
+        response.status(404);
+        response.send({ error: settings.defaultMessages.notFound });
         return;
     }
 

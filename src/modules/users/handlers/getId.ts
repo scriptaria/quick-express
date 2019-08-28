@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../../../models/user";
+import { settings } from "../../../settings";
 
 export const getId = async (request: Request, response: Response) => {
 
@@ -9,7 +10,7 @@ export const getId = async (request: Request, response: Response) => {
 
     if (!user) {
         response.status(404);
-        response.send({ error: "User not found!" });
+        response.send({ error: settings.defaultMessages.notFound });
         return;
     }
 
