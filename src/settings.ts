@@ -1,7 +1,7 @@
 import { Settings } from "interfaces/settings";
 
 export const settings: Settings = {
-    port: 4000,
+    port: 3000,
     baseRoute: "/v1",
     auth: {
         secret: "12345",

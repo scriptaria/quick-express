@@ -5,13 +5,13 @@ import * as helper from "./helper";
 
 describe("Auth module", () => {
 
-    const email = `${new Date().getTime()}@example.com`;
-    const password = "@DefaultTest!Password#$%¨&*";
-    const name = "Test User";
-    let access;
-    let refresh;
+    const email: string = `${new Date().getTime()}@example.com`;
+    const password: string = "@DefaultTest!Password#$%¨&*";
+    const name: string = "Test User";
+    let access: string;
+    let refresh: string;
 
-    before(function (done) {
+    before(function(done) {
         this.timeout(60000);
         bootstrap.start("test").then((result: any) => {
             if (!result.success) {
@@ -68,10 +68,10 @@ describe("Auth module", () => {
         });
     });
 
-    describe("POST /auth/register", () => {
+    describe("POST /users", () => {
         it("Should register a new user", (done) => {
             request(bootstrap.server.app)
-                .post("/auth/register")
+                .post(`${settings.baseRoute}/users`)
                 .send({ email, password, name })
                 .expect(201)
                 .then((result) => {
@@ -83,10 +83,10 @@ describe("Auth module", () => {
         });
     });
 
-    describe("POST /auth/login", () => {
+    describe("POST /users/login", () => {
         it("Should login the new user", (done) => {
             request(bootstrap.server.app)
-                .post("/auth/login")
+                .post(`${settings.baseRoute}/users/login`)
                 .send({ email, password })
                 .expect(200)
                 .expect((response) => {
@@ -104,44 +104,10 @@ describe("Auth module", () => {
         });
     });
 
-    describe("GET /auth/check/:access", () => {
-        it("Should say that is a VALID access token", (done) => {
-            request(bootstrap.server.app)
-                .get(`/auth/check/${access}`)
-                .expect(200)
-                .expect((response) => {
-                    if (!("id" in response.body)) { throw new Error("Missing `id` key"); }
-                    if (!("name" in response.body)) { throw new Error("Missing `name` key"); }
-                    if (!("email" in response.body)) { throw new Error("Missing `email` key"); }
-                })
-                .then((result) => {
-                    done();
-                })
-                .catch((error) => {
-                    done(error);
-                });
-        });
-
-        it("Should say that is an INVALID token", (done) => {
-            request(bootstrap.server.app)
-                .get("/auth/check/invalidtokenexample")
-                .expect(400)
-                .expect((response) => {
-                    if (!("error" in response.body)) { throw new Error("Missing `error` key"); }
-                })
-                .then((result) => {
-                    done();
-                })
-                .catch((error) => {
-                    done(error);
-                });
-        });
-    });
-
-    describe("POST /auth/refresh", () => {
+    describe("POST /users/refresh", () => {
         it("Should says that is a VALID refresh token", (done) => {
             request(bootstrap.server.app)
-                .post("/auth/refresh")
+                .post(`${settings.baseRoute}/users/refresh`)
                 .send({ refresh })
                 .expect(200)
                 .expect((response) => {
@@ -160,7 +126,7 @@ describe("Auth module", () => {
 
         it("Should says that is an INVALID refresh token", (done) => {
             request(bootstrap.server.app)
-                .post("/auth/refresh")
+                .post(`${settings.baseRoute}/users/refresh`)
                 .send({ refresh: "AnInvalidRefreshToken" })
                 .expect(400)
                 .expect((response) => {

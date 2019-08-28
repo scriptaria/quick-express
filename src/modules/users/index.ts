@@ -1,9 +1,9 @@
 import { Component } from "../../core/interfaces";
 import { getIdTasks } from "./handlers/getIdTasks";
 import { getMe } from "./handlers/getMe";
-import { postRefresh } from "./handlers/postRefresh";
-import { postRegister } from "./handlers/postRegister";
+import { post } from "./handlers/post";
 import { postLogin } from "./handlers/postLogin";
+import { postRefresh } from "./handlers/postRefresh";
 
 export const routes: Component = {
 
