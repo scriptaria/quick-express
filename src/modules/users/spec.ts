@@ -3,7 +3,7 @@ import * as bootstrap from "../../core/bootstrap";
 import { settings } from "../../settings";
 import * as helper from "./helper";
 
-describe("Auth module", () => {
+describe("Users module", () => {
 
     const email: string = `${new Date().getTime()}@example.com`;
     const password: string = "@DefaultTest!Password#$%¨&*";

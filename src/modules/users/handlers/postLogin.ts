@@ -4,7 +4,7 @@ import { User } from "../../../models/user";
 import { settings } from "../../../settings";
 import { generateTokens } from "../helper";
 
-export const postLogin = (request: Request, response: Response) => {
+export const postLogin = async (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password) {
         response.status(400);
@@ -12,26 +12,23 @@ export const postLogin = (request: Request, response: Response) => {
         return;
     }
 
-    User.findOne({ email: request.body.email }, { select: ["id", "password"] })
-        .then((user) => {
+    const user: User = await User.findOne({ email: request.body.email }, { select: ["id", "password"] }).catch(() => null);
 
-            bcrypt.compare(request.body.password, user.password).then((result) => {
+    if (!user) {
+        response.status(400);
+        response.send({ error: "User not found." });
+    }
 
-                if (!result) {
-                    response.status(400);
-                    response.send({ error: "Wrong password." });
-                    return;
-                }
+    const isTheCorrectPassword = await bcrypt.compare(request.body.password, user.password).catch(() => false);
 
-                const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
+    if (!isTheCorrectPassword) {
+        response.status(400);
+        response.send({ error: "Wrong password." });
+        return;
+    }
 
-                response.status(200);
-                response.send(tokens);
-            });
+    const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
 
-        })
-        .catch(() => {
-            response.status(400);
-            response.send({ error: "User not found." });
-        });
+    response.status(200);
+    response.send(tokens);
 };
