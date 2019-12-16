@@ -1,4 +1,4 @@
-import { BaseSettings } from "../core/interfaces";
+import { BaseSettings } from "src/core/interfaces";
 
 export interface Settings extends BaseSettings {
     auth: {

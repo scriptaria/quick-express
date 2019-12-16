@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
-import { User } from "../../../models/user";
-import { settings } from "../../../settings";
+import { User } from "src/models/user";
+import { settings } from "src/settings";
 import { generateTokens } from "../helper";
 
 export const postRefresh = (request: Request, response: Response) => {

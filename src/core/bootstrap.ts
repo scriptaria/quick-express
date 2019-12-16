@@ -1,5 +1,6 @@
-import { modules } from "../modules";
-import { settings } from "../settings";
+import "module-alias/register";
+import { modules } from "src/modules";
+import { settings } from "src/settings";
 import { Database } from "./database";
 import * as events from "./events";
 import { Server } from "./server";

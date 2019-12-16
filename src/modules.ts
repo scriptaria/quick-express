@@ -1,5 +1,5 @@
-import * as tasks from "./modules/tasks";
-import * as users from "./modules/users";
+import * as tasks from "src/modules/tasks";
+import * as users from "src/modules/users";
 
 /**
  * Here are declared the main routes and their related modules.

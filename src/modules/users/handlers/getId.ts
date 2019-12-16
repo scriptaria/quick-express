@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { User } from "../../../models/user";
-import { settings } from "../../../settings";
+import { User } from "src/models/user";
+import { settings } from "src/settings";
 
 export const getId = async (request: Request, response: Response) => {
 

@@ -10,13 +10,13 @@ export const settings: Settings = {
     database: {
         synchronize: true,
         type: "mysql",
-        host: "localhost",
+        host: "remotemysql.com",
         port: 3306,
-        username: "root",
-        password: "",
-        database: "quickdb",
+        username: "svDNaWBXZ1",
+        password: "O3PL2yCalt",
+        database: "svDNaWBXZ1",
         entities: [
-            "/models",
+            "/models/**",
         ],
         migrations: [
             "/migrations",

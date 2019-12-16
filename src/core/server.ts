@@ -2,7 +2,7 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as express from "express";
 import { NextFunction, Request, Response } from "express";
-import * as middlewares from "../middlewares";
+import * as middlewares from "src/middlewares";
 import { Database } from "./database";
 import { Component, DefaultResponse } from "./interfaces";
 

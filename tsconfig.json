@@ -1,14 +1,19 @@
 {
     "compilerOptions": {
         "allowJs": true,
-        "baseUrl": "src",
+        "baseUrl": "./src",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "build",
         "sourceMap": true,
-        "target": "es2018"
+        "target": "es2018",
+        "paths": {
+            "src/*": [
+                "*"
+            ]
+        }
     },
     "exclude": [
         "node_modules",

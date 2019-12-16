@@ -1,4 +1,4 @@
-import { Component } from "../../core/interfaces";
+import { Component } from "src/core/interfaces";
 import { getId } from "./handlers/getId";
 import { getIdTasks } from "./handlers/getIdTasks";
 import { post } from "./handlers/post";

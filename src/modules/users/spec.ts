@@ -1,6 +1,6 @@
+import * as bootstrap from "src/core/bootstrap";
+import { settings } from "src/settings";
 import * as request from "supertest";
-import * as bootstrap from "../../core/bootstrap";
-import { settings } from "../../settings";
 import * as helper from "./helper";
 
 describe("Users module", () => {

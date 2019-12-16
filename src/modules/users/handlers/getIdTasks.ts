@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Task } from "../../../models/task";
-import { User } from "../../../models/user";
-import { settings } from "../../../settings";
+import { Task } from "src/models/task";
+import { User } from "src/models/user";
+import { settings } from "src/settings";
 
 export const getIdTasks = async (request: Request, response: Response) => {
 

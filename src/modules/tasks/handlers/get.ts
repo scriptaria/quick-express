@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Task } from "../../../models/task";
-import { settings } from "../../../settings";
+import { Task } from "src/models/task";
+import { settings } from "src/settings";
 
 export const get = async (request: Request, response: Response) => {
 

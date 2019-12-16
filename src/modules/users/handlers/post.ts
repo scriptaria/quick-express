@@ -1,7 +1,7 @@
 import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { User } from "../../../models/user";
-import { settings } from "../../../settings";
+import { User } from "src/models/user";
+import { settings } from "src/settings";
 
 export const post = async (request: Request, response: Response) => {
 

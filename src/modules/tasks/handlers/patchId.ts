@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { Task } from "../../../models/task";
-import { settings } from "../../../settings";
+import { Task } from "src/models/task";
+import { settings } from "src/settings";
 
 export const patchId = async (request: Request, response: Response) => {
 
-    const task: Task = await Task.findOne({ id: request.params.id }, { relations: ["user"] }).catch(() => null);
+    const task: Task = await Task.findOne({ where: { id: request.params.id }, relations: ["user"] }).catch(() => null);
 
     if (!task) {
         response.status(404);

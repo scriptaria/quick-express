@@ -1,7 +1,7 @@
 import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
-import { DefaultResponse } from "../../core/interfaces";
-import { settings } from "../../settings";
+import { DefaultResponse } from "src/core/interfaces";
+import { settings } from "src/settings";
 
 const generateTimestamp = (minutes: number, hours: number = 1, days: number = 1): number => {
     return Math.floor(Date.now() / 1000) + (60 * minutes * hours * days);
