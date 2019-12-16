@@ -51,7 +51,7 @@ export const postRefresh = (request: Request, response: Response) => {
             return;
         }
 
-        const tokens = generateTokens(user.id, settings.auth.secret, settings.auth.expires);
+        const tokens = generateTokens(user.id, settings.auth);
         response.status(200);
         response.send(tokens);
     });

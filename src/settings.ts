@@ -11,7 +11,8 @@ export const settings: Settings = {
     baseRoute: "/v1",
     auth: {
         secret: String(process.env.AUTH_SECRET),
-        expires: process.env.AUTH_EXPIRES ? Number(process.env.AUTH_EXPIRES) : 30,
+        accessExpires: 30,
+        refreshExpires: 43200,
     },
     database: {
         synchronize: boolean(process.env.DB_SYNC),

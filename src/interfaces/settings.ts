@@ -1,8 +1,6 @@
 import { BaseSettings } from "src/core/interfaces";
+import { AuthSettings } from "./authSettings";
 
 export interface Settings extends BaseSettings {
-    auth: {
-        secret: string,
-        expires: number,
-    };
+    auth: AuthSettings;
 }

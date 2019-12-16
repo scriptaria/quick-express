@@ -1,6 +1,6 @@
-import * as bootstrap from "src/core/bootstrap";
-import { settings } from "src/settings";
 import * as request from "supertest";
+import * as bootstrap from "../../core/bootstrap";
+import { settings } from "../../settings";
 import * as helper from "./helper";
 
 describe("Users module", () => {
@@ -36,7 +36,7 @@ describe("Users module", () => {
         let tokens: { access: string, refresh: string };
 
         it("Generate JWT token", (done) => {
-            tokens = helper.generateTokens(1, settings.auth.secret, settings.auth.expires);
+            tokens = helper.generateTokens(1, settings.auth);
 
             if (!("access" in tokens)) { throw new Error("Missing `access` key"); }
             if (!("refresh" in tokens)) { throw new Error("Missing `refresh` key"); }

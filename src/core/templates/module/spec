@@ -1,5 +1,5 @@
 import * as request from "supertest";
-import * as bootstrap from "src/core/bootstrap";
+import * as bootstrap from "../../core/bootstrap";
 
 describe("%NAME% module", () => {
 

@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Index } from "typeorm";
 import { Task } from "./task";
 
 @Entity("users")
@@ -10,6 +10,7 @@ export class User extends BaseEntity {
     @Column({ length: 100, nullable: false })
     public name: string;
 
+    @Index()
     @Column({ length: 50, nullable: false, unique: true })
     public email: string;
 
