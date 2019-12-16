@@ -1,9 +1,15 @@
 import "module-alias/register";
+
+import { boolean } from "boolean";
 import { modules } from "src/modules";
 import { settings } from "src/settings";
 import { Database } from "./database";
 import * as events from "./events";
 import { Server } from "./server";
+
+if (boolean(process.env.CI)) {
+    settings.auth.secret = "abcd";
+}
 
 export const database = new Database();
 export const server = new Server(database);

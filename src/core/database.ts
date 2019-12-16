@@ -41,7 +41,7 @@ export class Database {
                     resolve({ success: true });
                 })
                 .catch((error) => {
-                    resolve({ success: false, error: error.code });
+                    resolve({ success: false, error });
                 });
         });
     }

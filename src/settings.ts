@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import { Settings } from "src/interfaces/settings";
 
 config({
-    path: `${__dirname}/../.env`,
+    path: `${__dirname}/../${boolean(process.env.CI) ? `.env.example` : `.env`}`,
 });
 
 export const settings: Settings = {
