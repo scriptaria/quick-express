@@ -2,36 +2,33 @@
 
 # Quick Express
 
-A rest API structure made with Express.js ready to use.
+A ready to use rest API structure made with Express.js and Typescript.
 
 # Getting started
 
 ## Configure and understand your project
 
-The `src` folder is the place where your project stays.
+Make a copy of `.env.example` to `.env` and put your environment settings there. Is recommended to not commit the `.env` file.
 
- * Set your settings in `src/settings.ts`
-   * Put any random in string `auth.secret`, it will serve to generate authentication tokens
-     *  The larger and more variety of characters (including special characters), the safer it will be.
- * Set your routes and point them to his component in `src/settings.ts`
- * Place your modules in `src/modules/` and describe them in `src/modules.ts`
- * Your models stay at `src/models/`. Quick Express comes with TypeORM as its default ORM
+The `src` is where your source code stays.
+ * Set your routes/modules in `src/modules.ts`
  * Place your middlewares in `src/middlewares.ts`
+ * Your models are at `src/models/`. Quick Express comes with TypeORM as its default ORM.
 
 ------
 
 The project already have the ability to provide secure authentication
 
     POST /users - Create a new user
-    POST /users/login - Login with email and password`
+    POST /users/login - Login with email and password
     POST /users/refresh - Get new access and refresh tokens
 
 ------
 
-The project come with a component called `tasks`, it show you the appropiate way to make a good restful api. This endpoints only works with authenticated users.
+The project come with a module called `tasks`, it shows you the appropriate way to make a good restful API. These endpoints only work with authenticated users.
 
     GET /tasks - Retrieves all logged user tasks
-    GET /tasks/1 - Retrieves a specific task
+    GET /tasks/1 - Retrieves a specific task by id
     POST /tasks - Creates a new task
     PATCH /tasks/1 - Updates task #1
     DELETE /tasks/1 - Deletes task #1
@@ -50,12 +47,6 @@ Quick Express comes with a simple CLI tool to generate components such as Models
 ## Running
 
     npm start
-
-## Use docker if you prefer
-
-    docker-compose up
-
-
 
 
 
