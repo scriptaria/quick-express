@@ -4,6 +4,23 @@ import { User } from "src/models/user";
 import { settings } from "src/settings";
 import { generateTokens } from "../helper";
 
+/**
+ * @api {post} /users/login User Login
+ * @apiName PostUsersLogin
+ * @apiGroup Users
+ *
+ * @apiParam {String} email     The email of the user.
+ * @apiParam {String} password  The password of the user.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *      {
+ *          "access": "accessToken",
+ *          "accessExpires": "2019-12-16T08:41:14.988Z",
+ *          "refresh": "refreshToken",
+ *          "refreshExpires": "2020-01-16T08:41:14.988Z",
+ *      }
+ */
 export const postLogin = async (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password) {

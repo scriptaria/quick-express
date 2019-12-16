@@ -10,6 +10,7 @@
         "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "start": "npm run build && npm run serve",
         "test": "npm run build && cross-env TEST_ENV=test mocha \"build/modules/**/spec.js\"",
+        "doc": "npm run build && apidoc -i build/ -o doc/",
         "quick": "ts-node src/core/cli.ts"
     },
     "author": {
@@ -18,10 +19,14 @@
         "url": "https://scriptaria.com/"
     },
     "license": "MIT",
+    "apidoc": {
+        "title": "Quick Express - Documentation"
+    },
     "_moduleAliases": {
         "src": "build"
     },
     "dependencies": {
+        "apidoc": "^0.19.0",
         "bcrypt": "3.0.6",
         "body-parser": "1.19.0",
         "boolean": "3.0.0",

@@ -33,6 +33,12 @@ The project come with a module called `tasks`, it shows you the appropriate way 
     PATCH /tasks/1 - Updates task #1
     DELETE /tasks/1 - Deletes task #1
 
+## Documentation
+
+Quick Express comes with [apidoc](https://apidocjs.com). Run `npm run doc` to generate de doc on `/doc` folder.
+
+Consider consulting the [apidoc documentation](https://apidocjs.com/#getting-started)  to learn more.
+
 ## CLI Tool
 
 Quick Express comes with a simple CLI tool to generate components such as Models and Modules, take a try:

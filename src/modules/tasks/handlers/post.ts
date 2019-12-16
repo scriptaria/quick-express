@@ -1,7 +1,19 @@
+import { boolean } from "boolean";
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
 import { settings } from "src/settings";
 
+/**
+ * @api {post} /tasks Create a Task
+ * @apiName PostTasks
+ * @apiGroup Tasks
+ *
+ * @apiParam {String} title             The title for the task.
+ * @apiParam {Boolean} [done=false]     The status for the task.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ */
 export const post = async (request: Request, response: Response) => {
 
     if (!request.body.title) {
@@ -12,7 +24,7 @@ export const post = async (request: Request, response: Response) => {
 
     const task = new Task();
     task.title = String(request.body.title);
-    task.done = Boolean(request.body.done);
+    task.done = boolean(request.body.done);
     task.user = response.locals.user;
 
     if (!await task.save().catch(() => null)) {

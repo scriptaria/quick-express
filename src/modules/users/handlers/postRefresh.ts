@@ -5,6 +5,22 @@ import { User } from "src/models/user";
 import { settings } from "src/settings";
 import { generateTokens } from "../helper";
 
+/**
+ * @api {post} /users/refresh Refresh User Tokens
+ * @apiName PostUsersRefresh
+ * @apiGroup Users
+ *
+ * @apiParam {String} refresh   Refresh token.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *      {
+ *          "access": "accessToken",
+ *          "accessExpires": "2019-12-16T08:41:14.988Z",
+ *          "refresh": "refreshToken",
+ *          "refreshExpires": "2020-01-16T08:41:14.988Z",
+ *      }
+ */
 export const postRefresh = (request: Request, response: Response) => {
 
     if (!request.body.refresh) {

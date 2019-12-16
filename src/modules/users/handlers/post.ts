@@ -3,6 +3,18 @@ import { Request, Response } from "express";
 import { User } from "src/models/user";
 import { settings } from "src/settings";
 
+/**
+ * @api {post} /users Create a User
+ * @apiName PostUsers
+ * @apiGroup Users
+ *
+ * @apiParam {String} email     The email of the new user.
+ * @apiParam {String} password  The password of the new user.
+ * @apiParam {String} name      The name of the new user.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 201 Created
+ */
 export const post = async (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password || !request.body.name) {
