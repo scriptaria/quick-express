@@ -28,11 +28,4 @@ export const settings: Settings = {
             "/migrations",
         ],
     },
-    defaultMessages: {
-        notFound: "Not Found",
-        serverError: "Server error.",
-        notAllowed: "Not allowed.",
-        missingParamters: "Missing paramters.",
-        failedToSave: "Failed to save.",
-    },
 };

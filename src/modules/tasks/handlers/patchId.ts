@@ -1,7 +1,6 @@
 import { boolean } from "boolean";
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
-import { settings } from "src/settings";
 
 /**
  * @api {patch} /tasks/:id Modify a Task by Id
@@ -20,13 +19,13 @@ export const patchId = async (request: Request, response: Response) => {
 
     if (!task) {
         response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.send({ error: "Not found." });
         return;
     }
 
     if (task.user.id !== response.locals.userId) {
         response.status(403);
-        response.send({ error: settings.defaultMessages.notAllowed });
+        response.send({ error: "Not allowed." });
         return;
     }
 
@@ -35,7 +34,7 @@ export const patchId = async (request: Request, response: Response) => {
 
     if (!await task.save().catch(() => null)) {
         response.status(500);
-        response.send({ error: settings.defaultMessages.serverError });
+        response.send({ error: "Server error." });
         return;
     }
 

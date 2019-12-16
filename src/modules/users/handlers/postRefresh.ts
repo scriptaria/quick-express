@@ -25,7 +25,7 @@ export const postRefresh = (request: Request, response: Response) => {
 
     if (!request.body.refresh) {
         response.status(400);
-        response.send({ error: settings.defaultMessages.missingParamters });
+        response.send({ error: "Missing paramters." });
         return;
     }
 
@@ -39,7 +39,7 @@ export const postRefresh = (request: Request, response: Response) => {
 
         if (decoded.type !== "refresh") {
             response.status(400);
-            response.send({ error: "Invalid token" });
+            response.send({ error: "Invalid token." });
             return;
         }
 
@@ -47,7 +47,7 @@ export const postRefresh = (request: Request, response: Response) => {
 
         if (!user) {
             response.status(404);
-            response.send({ error: settings.defaultMessages.notFound });
+            response.send({ error: "User not found." });
             return;
         }
 

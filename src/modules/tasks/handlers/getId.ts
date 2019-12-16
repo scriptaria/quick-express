@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
-import { settings } from "src/settings";
 
 /**
  * @api {get} /tasks/:id Get a Task by Id
@@ -21,13 +20,13 @@ export const getId = async (request: Request, response: Response) => {
 
     if (!task) {
         response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.send({ error: "Not found." });
         return;
     }
 
     if (task.user.id !== response.locals.userId) {
         response.status(403);
-        response.send({ error: settings.defaultMessages.notAllowed });
+        response.send({ error: "Not allowed." });
         return;
     }
 

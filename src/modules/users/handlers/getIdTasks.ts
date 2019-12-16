@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
 import { User } from "src/models/user";
-import { settings } from "src/settings";
 
 /**
  * @api {get} /users/:id/tasks Get Tasks from a User
@@ -26,15 +25,15 @@ export const getIdTasks = async (request: Request, response: Response) => {
 
     if (!user) {
         response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.send({ error: "User not found." });
         return;
     }
 
     const tasks: Task = await Task.find({ user }).catch(() => null);
 
     if (!tasks) {
-        response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.status(500);
+        response.send({ error: "Server error." });
         return;
     }
 

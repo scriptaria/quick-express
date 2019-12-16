@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
-import { settings } from "src/settings";
 
 /**
  * @api {get} /tasks Get Tasks
@@ -23,7 +22,7 @@ export const get = async (request: Request, response: Response) => {
 
     if (!tasks) {
         response.status(500);
-        response.send({ error: settings.defaultMessages.serverError });
+        response.send({ error: "Server error." });
         return;
     }
 

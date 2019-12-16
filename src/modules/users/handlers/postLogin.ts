@@ -25,7 +25,7 @@ export const postLogin = async (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password) {
         response.status(400);
-        response.send({ error: settings.defaultMessages.missingParamters });
+        response.send({ error: "Missing paramters." });
         return;
     }
 
@@ -33,7 +33,7 @@ export const postLogin = async (request: Request, response: Response) => {
 
     if (!user) {
         response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.send({ error: "User not found." });
     }
 
     const isTheCorrectPassword = await bcrypt.compare(request.body.password, user.password).catch(() => false);

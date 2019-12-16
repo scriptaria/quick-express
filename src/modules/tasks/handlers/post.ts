@@ -1,7 +1,6 @@
 import { boolean } from "boolean";
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
-import { settings } from "src/settings";
 
 /**
  * @api {post} /tasks Create a Task
@@ -18,7 +17,7 @@ export const post = async (request: Request, response: Response) => {
 
     if (!request.body.title) {
         response.status(400);
-        response.send({ error: settings.defaultMessages.missingParamters });
+        response.send({ error: "Missing paramters." });
         return;
     }
 
@@ -29,7 +28,7 @@ export const post = async (request: Request, response: Response) => {
 
     if (!await task.save().catch(() => null)) {
         response.status(500);
-        response.send({ error: settings.defaultMessages.serverError });
+        response.send({ error: "Server error." });
         return;
     }
 

@@ -5,7 +5,4 @@ export interface Settings extends BaseSettings {
         secret: string,
         expires: number,
     };
-    defaultMessages: {
-        [key: string]: string;
-    };
 }

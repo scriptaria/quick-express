@@ -1,7 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { User } from "src/models/user";
-import { settings } from "src/settings";
 
 /**
  * @api {post} /users Create a User
@@ -19,7 +18,7 @@ export const post = async (request: Request, response: Response) => {
 
     if (!request.body.email || !request.body.password || !request.body.name) {
         response.status(400);
-        response.send({ error: settings.defaultMessages.missingParamters });
+        response.send({ error: "Missing paramters." });
         return;
     }
 
@@ -30,7 +29,7 @@ export const post = async (request: Request, response: Response) => {
 
     if (!await user.save().catch(() => null)) {
         response.status(400);
-        response.send({ error: settings.defaultMessages.failedToSave });
+        response.send({ error: "Failed to save." });
         return;
     }
 

@@ -23,7 +23,7 @@ export const getId = async (request: Request, response: Response) => {
 
     if (!user) {
         response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.send({ error: "Not found." });
         return;
     }
 

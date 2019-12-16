@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
-import { settings } from "src/settings";
 
 /**
  * @api {delete} /tasks/:id Delete a Task by Id
@@ -16,19 +15,19 @@ export const deleteId = async (request: Request, response: Response) => {
 
     if (!task) {
         response.status(404);
-        response.send({ error: settings.defaultMessages.notFound });
+        response.send({ error: "Task not Found." });
         return;
     }
 
     if (task.user.id !== response.locals.userId) {
         response.status(403);
-        response.send({ error: settings.defaultMessages.notAllowed });
+        response.send({ error: "Not allowed." });
         return;
     }
 
     if (! await task.remove().catch(() => null)) {
         response.status(500);
-        response.send({ error: settings.defaultMessages.serverError });
+        response.send({ error: "Server error." });
         return;
     }
 
