@@ -4,6 +4,13 @@
 
 A ready to use rest API structure made with Express.js and Typescript.
 
+Quick Express counts with:
+ * ORM ([TypeORM](https://github.com/typeorm))
+ * Tests ([Mocha](https://github.com/mochajs/mocha) and [Super Test](https://github.com/visionmedia/supertest))
+ * Documentation ([apidoc](https://apidocjs.com))
+ * JWT Authentication
+ * A great and organized project structure.
+
 # Getting started
 
 ## Configure and understand your project
