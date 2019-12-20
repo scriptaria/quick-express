@@ -15,24 +15,23 @@ Quick Express counts with:
 
 ## Configure and understand your project
 
-Make a copy of `.env.example` to `.env` and put your environment settings there. Is recommended to not commit the `.env` file.
+Make a copy of `.env.example` and rename it to `.env`, in this file you'll put all your sensitive and environment settings. Is recommended to not commit the `.env` file.
 
 The `src` is where your source code stays.
- * Set your routes/modules in `src/modules.ts`
- * Place your middlewares in `src/middlewares.ts`
- * Your models are at `src/models/`. Quick Express comes with TypeORM as its default ORM.
+ * Your modules (routes and endpoints) in `src/modules.ts`
+ * Your middleware in `src/middleware.ts`
+ * Your models in `src/models/`
 
 ------
 
-The project already have the ability to provide secure authentication
+The project already comes with a module called `users`. It provides secure authentication for your project using JWT.
 
     POST /users - Create a new user
     POST /users/login - Login with email and password
     POST /users/refresh - Get new access and refresh tokens
 
-------
 
-The project come with a module called `tasks`, it shows you the appropriate way to make a good restful API. These endpoints only work with authenticated users.
+And the project also comes with a module called 'tasks', that shows you the appropriate way to make a good REST API. These endpoints only work with authenticated users.
 
     GET /tasks - Retrieves all logged user tasks
     GET /tasks/1 - Retrieves a specific task by id
@@ -40,18 +39,18 @@ The project come with a module called `tasks`, it shows you the appropriate way 
     PATCH /tasks/1 - Updates task #1
     DELETE /tasks/1 - Deletes task #1
 
+## CLI Tool
+
+Quick Express comes with a simple CLI tool to generate components such as Models and Modules, take a try:
+
+    npm run quick generate module nameOfMyModule
+    npm run quick generate model nameOfMyModel
+
 ## Documentation
 
 Quick Express comes with [apidoc](https://apidocjs.com). Run `npm run doc` to generate de doc on `/doc` folder.
 
 Consider consulting the [apidoc documentation](https://apidocjs.com/#getting-started)  to learn more.
-
-## CLI Tool
-
-Quick Express comes with a simple CLI tool to generate components such as Models and Modules, take a try:
-
-    npm run quick generate module exampleModule
-    npm run quick generate model exampleModel
 
 ## Install your node dependencies
 

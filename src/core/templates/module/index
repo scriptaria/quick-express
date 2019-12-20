@@ -1,10 +1,13 @@
-import { Component } from "src/core/interfaces";
+import { Module } from "src/core/interfaces";
 import { get } from "./handlers/get";
 
-export const routes: Component = {
-    "/": {
-        get: {
-            handler: get,
+export const module: Module = {
+    route: "/%NAME%",
+    endpoints: {
+        "/": {
+            get: {
+                handler: get,
+            },
         },
     },
 };

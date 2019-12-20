@@ -55,7 +55,9 @@ const createModule = (name: string): void => {
     makeDir(`${srcFolder}/modules/${name}`);
     makeDir(`${srcFolder}/modules/${name}/handlers`);
 
-    const moduleIndex = getByTemplate(`${srcFolder}/core/templates/module/index`);
+    const moduleIndex = getByTemplate(`${srcFolder}/core/templates/module/index`, [
+        { regex: /\%NAME\%/, value: slug(name) },
+    ]);
     const moduleHelper = getByTemplate(`${srcFolder}/core/templates/module/helper`);
     const moduleHandlerGet = getByTemplate(`${srcFolder}/core/templates/module/handlers/get`);
     const moduleSpec = getByTemplate(`${srcFolder}/core/templates/module/spec`, [

@@ -12,15 +12,18 @@ export interface Replacement {
 }
 
 export interface Route {
-    delete?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };
-    get?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };
-    patch?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };
-    post?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };
-    put?: { handler: (request: Request, response: Response) => void, middlewares?: string[] };
+    delete?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
+    get?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
+    patch?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
+    post?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
+    put?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
 }
 
-export interface Component {
-    [name: string]: Route;
+export interface Module {
+    route: string;
+    endpoints: {
+        [name: string]: Route;
+    };
 }
 
 export interface DefaultResponse {

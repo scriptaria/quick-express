@@ -2,9 +2,10 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as express from "express";
 import { NextFunction, Request, Response } from "express";
-import * as middlewares from "src/middlewares";
+import * as Glob from "glob";
+import * as middleware from "src/middleware";
 import { Database } from "./database";
-import { Component, DefaultResponse } from "./interfaces";
+import { DefaultResponse, Module } from "./interfaces";
 
 export class Server {
 
@@ -47,8 +48,33 @@ export class Server {
         });
     }
 
-    public setComponent(path: string, component: { routes: Component }) {
-        this.app.use(path, this.getComponentRoutes(component.routes, path));
+    public setModules(baseRoute: string): void {
+        for (const module of this.getModules()) {
+
+            const router: express.Router = express.Router();
+
+            for (const endpoint in module.endpoints) {
+
+                const methods = module.endpoints[endpoint];
+                for (const method in methods) {
+
+                    if (methods[method].middleware) {
+                        for (const methodMiddleware of methods[method].middleware) {
+                            router[method](endpoint, middleware[methodMiddleware]);
+                        }
+                    }
+
+                    router[method](endpoint, methods[method].handler);
+                }
+            }
+
+            this.app.use(`${baseRoute}${module.route}`, router);
+        }
+    }
+
+    private getModules(): Module[] {
+        const files = Glob.sync("../modules/**/index.js", { cwd: __dirname });
+        return files.map((file) => require(file).module).filter((module: Module) => module);
     }
 
     private config(): void {
@@ -74,34 +100,5 @@ export class Server {
             response.status(200);
             response.send(data);
         });
-
-    }
-
-    private getComponentRoutes(component: Component, parent: string): express.Router {
-
-        const router: express.Router = express.Router();
-
-        // made the iteration for the sub routes
-        for (const route in component) {
-
-            const methods = component[route];
-
-            // made the iteration for every method that this sub route work for
-            for (const method in methods) {
-
-                // set the middlewares if has any
-                if (methods[method].middlewares) {
-                    for (const middleware of methods[method].middlewares) {
-                        router[method](route, middlewares[middleware]);
-                    }
-                }
-
-                // finaly set the final handler of the route
-                router[method](route, methods[method].handler);
-            }
-        }
-
-        return router;
-
     }
 }

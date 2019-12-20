@@ -1,7 +1,6 @@
 import "module-alias/register";
 
 import { boolean } from "boolean";
-import { modules } from "src/modules";
 import { settings } from "src/settings";
 import { Database } from "./database";
 import * as events from "./events";
@@ -33,13 +32,10 @@ export const startDatabase = () => {
     });
 };
 
-export const startServer = (ambient) => {
+export const startServer = (ambient: "dev" | "prod" | "test") => {
     return new Promise((resolve) => {
 
-        for (const module of modules) {
-            const baseRoute = settings.baseRoute || "";
-            server.setComponent(baseRoute + module.path, module.component);
-        }
+        server.setModules(settings.baseRoute);
 
         let port = settings.port;
         if (ambient === "test") {
@@ -61,7 +57,7 @@ export const startServer = (ambient) => {
     });
 };
 
-export const start = (ambient: string) => {
+export const start = (ambient: "dev" | "prod" | "test") => {
 
     return new Promise((resolve) => {
 
