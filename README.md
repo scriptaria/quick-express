@@ -18,7 +18,7 @@ Quick Express counts with:
 Make a copy of `.env.example` and rename it to `.env`, in this file you'll put all your sensitive and environment settings. Is recommended to not commit the `.env` file.
 
 The `src` is where your source code stays.
- * Your modules (routes and endpoints) in `src/modules.ts`
+ * Your modules (routes and endpoints) in `src/modules/`
  * Your middleware in `src/middleware.ts`
  * Your models in `src/models/`
 
