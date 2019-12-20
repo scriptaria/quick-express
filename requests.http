@@ -1,0 +1,88 @@
+@host = http://localhost:3000/v1
+@userEmail = example@mail.com
+@userPass = examplePass!
+@userName = Example User
+
+### Register user
+# @name userRegister
+POST {{host}}/users
+Content-Type: application/json
+
+{
+    "email": "{{userEmail}}",
+    "password": "{{userPass}}",
+    "name": "{{userName}}"
+}
+
+### Log in user
+# @name userLogin
+POST {{host}}/users/login
+Content-Type: application/json
+
+{
+    "email": "{{userEmail}}",
+    "password": "{{userPass}}"
+}
+
+### Refresh auth tokens
+# @name userRefresh
+POST {{host}}/users/refresh
+Content-Type: application/json
+
+{
+    "refresh": "{{userLogin.response.body.refresh}}"
+}
+
+### Get user data
+# @name userData
+GET {{host}}/users/me
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+### Get user tasks
+# @name userTasks
+GET {{host}}/users/me/tasks
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+### Create task
+# @name taskCreate
+POST {{host}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+{
+    "title": "Examples task",
+    "done": false
+}
+
+### Get tasks
+# @name taskGet
+GET {{host}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+### Get one task
+# @name taskGetOne
+GET {{host}}/tasks/{{taskCreate.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+### Update task
+# @name taskUpdate
+PATCH  {{host}}/tasks/{{taskCreate.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+{
+    "done": true
+}
+
+### Delete task
+# @name taskDelete
+DELETE  {{host}}/tasks/{{taskCreate.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{userLogin.response.body.access}}
+
+
+

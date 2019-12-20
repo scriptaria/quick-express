@@ -34,5 +34,5 @@ export const post = async (request: Request, response: Response) => {
     }
 
     response.status(201);
-    response.send();
+    response.send(user);
 };

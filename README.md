@@ -39,6 +39,9 @@ And the project also comes with a module called 'tasks', that shows you the appr
     PATCH /tasks/1 - Updates task #1
     DELETE /tasks/1 - Deletes task #1
 
+
+**You can see all the default endpoints that comes with Quick Express in the `requests.http` file, and you can use [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to test it all in VSCode.**
+
 ## CLI Tool
 
 Quick Express comes with a simple CLI tool to generate components such as Models and Modules, take a try:

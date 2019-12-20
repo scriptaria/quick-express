@@ -35,6 +35,7 @@ export const module: Module = {
 
         "/:id/tasks": {
             get: {
+                middleware: ["auth"],
                 handler: getIdTasks,
             },
         },
