@@ -3,7 +3,7 @@ import "module-alias/register";
 import { boolean } from "boolean";
 import { settings } from "src/settings";
 import { Database } from "./database";
-import * as events from "./events";
+import { Events } from "./events";
 import { Server } from "./server";
 
 if (boolean(process.env.CI)) {
@@ -26,7 +26,7 @@ export const startDatabase = () => {
                 return;
             }
 
-            events.send("databaseReady");
+            Events.send("databaseIsReady");
             console.log("Successful connection with the database");
         });
     });
@@ -51,7 +51,7 @@ export const startServer = (ambient: "dev" | "prod" | "test") => {
                 return;
             }
 
-            events.send("serverReady");
+            Events.send("serverIsReady");
             console.log(`Server running at port ${port}`);
         });
     });
@@ -82,7 +82,7 @@ export const start = (ambient: "dev" | "prod" | "test") => {
                     }
                 });
 
-                events.send("applicationReady");
+                Events.send("applicationIsReady");
                 resolve({ success: true });
             });
     });

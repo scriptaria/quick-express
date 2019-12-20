@@ -1,23 +1,23 @@
 import { Subject } from "rxjs";
 import { EventList } from "./interfaces";
 
-const events: EventList = {};
+export class Events {
 
-export const listen = (eventKey: string): Subject<any> => {
+    public static eventList: EventList = {};
 
-    if (!(eventKey in events)) {
-        const event = new Subject();
-        events[eventKey] = event;
+    public static listen(eventKey: string): Subject<any> {
+        if (!(eventKey in Events.eventList)) {
+            const event = new Subject();
+            Events.eventList[eventKey] = event;
+        }
+        return Events.eventList[eventKey];
     }
 
-    return events[eventKey];
-};
-
-export const send = (eventKey: string, data: any = null): any => {
-
-    if (!(eventKey in events)) {
-        const event = new Subject();
-        events[eventKey] = event;
+    public static send(eventKey: string, data: any = null): void {
+        if (!(eventKey in Events.eventList)) {
+            const event = new Subject();
+            Events.eventList[eventKey] = event;
+        }
+        Events.eventList[eventKey].next(data);
     }
-    return events[eventKey].next(data);
-};
+}
