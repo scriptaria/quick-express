@@ -4,6 +4,7 @@ import * as express from "express";
 import { NextFunction, Request, Response } from "express";
 import * as Glob from "glob";
 import * as middleware from "src/middleware";
+import { settings } from "src/settings";
 import { Database } from "./database";
 import { DefaultResponse, Module } from "./interfaces";
 
@@ -20,6 +21,20 @@ export class Server {
         this.database = database;
         this.app = express();
         this.config();
+    }
+
+    public get baseRoute(): string {
+        const baseRoute = settings.baseRoute;
+
+        if (baseRoute === "/" || !baseRoute) {
+            return "";
+        }
+
+        if (baseRoute.length > 1 && baseRoute[0] !== "/") {
+            return `/${baseRoute}`;
+        }
+
+        return baseRoute;
     }
 
     public start(port: number): Promise<DefaultResponse> {
@@ -48,7 +63,8 @@ export class Server {
         });
     }
 
-    public setModules(baseRoute: string): void {
+    public loadModules(): void {
+
         for (const module of this.getModules()) {
 
             const router: express.Router = express.Router();
@@ -68,7 +84,7 @@ export class Server {
                 }
             }
 
-            this.app.use(`${baseRoute}${module.route}`, router);
+            this.app.use(`${this.baseRoute}${module.route}`, router);
         }
     }
 
@@ -77,7 +93,26 @@ export class Server {
         return files.map((file) => require(file).module).filter((module: Module) => module);
     }
 
+    private addStatusEndpoint(): void {
+        this.app.get(`${this.baseRoute}/status`, (request: Request, response: Response) => {
+
+            const data = {
+                database: this.database.connection ? this.database.connection.isConnected : "none",
+                instance: this.instance,
+                requests: this.requests,
+            };
+
+            response.status(200);
+            response.send(data);
+        });
+    }
+
     private config(): void {
+
+        if (settings.staticFolder) {
+            const folder = settings.staticFolder[0] === "/" ? settings.staticFolder.substr(1) : settings.staticFolder;
+            this.app.use(this.baseRoute, express.static(folder));
+        }
 
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
@@ -89,16 +124,7 @@ export class Server {
             next();
         });
 
-        this.app.get("/status", (request: Request, response: Response) => {
+        this.addStatusEndpoint();
 
-            const data = {
-                database: this.database.connection ? this.database.connection.isConnected : "none",
-                instance: this.instance,
-                requests: this.requests,
-            };
-
-            response.status(200);
-            response.send(data);
-        });
     }
 }

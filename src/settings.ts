@@ -8,7 +8,8 @@ config({
 
 export const settings: Settings = {
     port: 3000,
-    baseRoute: "/v1",
+    baseRoute: "/",
+    staticFolder: "/static",
     auth: {
         secret: String(process.env.AUTH_SECRET),
         accessExpires: 30,

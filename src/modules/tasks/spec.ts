@@ -24,7 +24,7 @@ describe("Users module", () => {
     describe("POST /users", () => {
         it("Should register a new user", (done) => {
             request(bootstrap.server.app)
-                .post(`${settings.baseRoute}/users`)
+                .post(`${bootstrap.server.baseRoute}/users`)
                 .send({ email, password, name })
                 .expect(201)
                 .then((result) => {
@@ -39,7 +39,7 @@ describe("Users module", () => {
     describe("POST /users/login", () => {
         it("Should login the new user", (done) => {
             request(bootstrap.server.app)
-                .post(`${settings.baseRoute}/users/login`)
+                .post(`${bootstrap.server.baseRoute}/users/login`)
                 .send({ email, password })
                 .expect(200)
                 .expect((response) => {
@@ -60,7 +60,7 @@ describe("Users module", () => {
     describe("POST /tasks", () => {
         it("Should create a new task", (done) => {
             request(bootstrap.server.app)
-                .post(`${settings.baseRoute}/tasks`)
+                .post(`${bootstrap.server.baseRoute}/tasks`)
                 .set("Authorization", `Bearer ${access}`)
                 .send({ title: "Example task" })
                 .expect(201)

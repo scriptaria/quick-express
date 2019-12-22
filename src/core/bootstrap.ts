@@ -35,7 +35,7 @@ export const startDatabase = () => {
 export const startServer = (ambient: "dev" | "prod" | "test") => {
     return new Promise((resolve) => {
 
-        server.setModules(settings.baseRoute);
+        server.loadModules();
 
         let port = settings.port;
         if (ambient === "test") {

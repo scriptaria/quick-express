@@ -35,6 +35,7 @@ export interface DefaultResponse {
 export interface BaseSettings {
     port: number;
     baseRoute: string;
+    staticFolder?: string;
     domain?: string;
     ssl?: boolean;
     database?: ConnectionOptions;

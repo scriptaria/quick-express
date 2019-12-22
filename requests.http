@@ -1,4 +1,4 @@
-@host = http://localhost:3000/v1
+@host = http://localhost:3000
 @userEmail = example@mail.com
 @userPass = examplePass!
 @userName = Example User
