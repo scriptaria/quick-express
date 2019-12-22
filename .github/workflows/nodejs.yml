@@ -1,4 +1,4 @@
-name: Quick Jobs
+name: tests
 
 on: [push, pull_request]
 
