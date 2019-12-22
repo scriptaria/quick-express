@@ -1,4 +1,5 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/scriptaria/quick-express/badge)](https://www.codefactor.io/repository/github/scriptaria/quick-express)
+[![Github Actions - Test CI](https://github.com/scriptaria/quick-express/workflows/tests/badge.svg)](https://github.com/scriptaria/quick-express/actions?query=workflow:tests)
 
 # Quick Express
 
