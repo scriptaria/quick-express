@@ -8,17 +8,6 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x]
-
-    services:
-      mysql:
-        image: mariadb:latest
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: quickdb
-        ports:
-          - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
@@ -30,4 +19,4 @@ jobs:
           CI: true
         run: |
           npm ci
-          npm run test
+          npm test
