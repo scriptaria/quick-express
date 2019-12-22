@@ -73,7 +73,7 @@ export class Server {
     }
 
     private getModules(): Module[] {
-        const files = Glob.sync("../modules/**/index.js", { cwd: __dirname });
+        const files = Glob.sync("../modules/**/index.{js,ts}", { cwd: __dirname });
         return files.map((file) => require(file).module).filter((module: Module) => module);
     }
 

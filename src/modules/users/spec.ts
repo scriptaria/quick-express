@@ -11,25 +11,14 @@ describe("Users module", () => {
     let access: string;
     let refresh: string;
 
-    before(function(done) {
-        this.timeout(60000);
-        bootstrap.start("test").then((result: any) => {
-            if (!result.success) {
-                done(new Error(result.error));
-                return;
-            }
-            done();
-        });
-    });
+    beforeAll(async (done) => {
+        await bootstrap.start("test");
+        done();
+    }, 60000);
 
-    after((done) => {
-        bootstrap.stop().then((result: any) => {
-            if (!result.success) {
-                done(new Error(result.error));
-                return;
-            }
-            done();
-        });
+    afterAll(async (done) => {
+        await bootstrap.stop();
+        done();
     });
 
     describe("Helper", () => {

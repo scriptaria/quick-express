@@ -19,12 +19,12 @@ export class Database {
 
         const newEntities = [];
         for (const entitie of entities) {
-            newEntities.push(path.join(__dirname, "../", entitie + "/*.js"));
+            newEntities.push(path.join(__dirname, "../", entitie + "/*.{js,ts}"));
         }
 
         const newMigrations = [];
         for (const migration of migrations) {
-            newMigrations.push(path.join(__dirname, "../", migration + "/*.js"));
+            newMigrations.push(path.join(__dirname, "../", migration + "/*.{js,ts}"));
         }
 
         this.settings = { ...databaseSettings, entities: newEntities, migrations: newMigrations };
