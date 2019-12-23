@@ -7,32 +7,32 @@ import { Task } from "src/models/task";
  * @apiName PostTasks
  * @apiGroup Tasks
  *
- * @apiParam {String} title             The title for the task.
- * @apiParam {Boolean} [done=false]     The status for the task.
+ * @apiParam {String} title         The title for the task.
+ * @apiParam {Boolean} [done=false] The status for the task.
  *
  * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
+ *  HTTP/1.1 200 OK
  */
 export const post = async (request: Request, response: Response) => {
 
-    if (!request.body.title) {
-        response.status(400);
-        response.send({ error: "Missing paramters." });
-        return;
-    }
+  if (!request.body.title) {
+    response.status(400);
+    response.send({ error: "Missing paramters." });
+    return;
+  }
 
-    const task = new Task();
-    task.title = String(request.body.title);
-    task.done = boolean(request.body.done);
-    task.user = response.locals.user;
+  const task = new Task();
+  task.title = String(request.body.title);
+  task.done = boolean(request.body.done);
+  task.user = response.locals.user;
 
-    if (!await task.save().catch(() => null)) {
-        response.status(500);
-        response.send({ error: "Server error." });
-        return;
-    }
+  if (!await task.save().catch(() => null)) {
+    response.status(500);
+    response.send({ error: "Server error." });
+    return;
+  }
 
-    delete (task.user);
-    response.status(201);
-    response.send(task);
+  delete (task.user);
+  response.status(201);
+  response.send(task);
 };

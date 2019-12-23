@@ -6,38 +6,38 @@ import { postLogin } from "./handlers/postLogin";
 import { postRefresh } from "./handlers/postRefresh";
 
 export const module: Module = {
-    route: "/users",
-    endpoints: {
-        "/": {
-            post: {
-                handler: post,
-            },
-        },
-
-        "/login": {
-            post: {
-                handler: postLogin,
-            },
-        },
-
-        "/refresh": {
-            post: {
-                handler: postRefresh,
-            },
-        },
-
-        "/:id": {
-            get: {
-                middleware: ["auth"],
-                handler: getId,
-            },
-        },
-
-        "/:id/tasks": {
-            get: {
-                middleware: ["auth"],
-                handler: getIdTasks,
-            },
-        },
+  route: "/users",
+  endpoints: {
+    "/": {
+      post: {
+        handler: post,
+      },
     },
+
+    "/login": {
+      post: {
+        handler: postLogin,
+      },
+    },
+
+    "/refresh": {
+      post: {
+        handler: postRefresh,
+      },
+    },
+
+    "/:id": {
+      get: {
+        middleware: ["auth"],
+        handler: getId,
+      },
+    },
+
+    "/:id/tasks": {
+      get: {
+        middleware: ["auth"],
+        handler: getIdTasks,
+      },
+    },
+  },
 };

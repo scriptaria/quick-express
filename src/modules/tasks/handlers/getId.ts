@@ -7,30 +7,30 @@ import { Task } from "src/models/task";
  * @apiGroup Tasks
  *
  * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *      {
- *          "id": 1,
- *          "title": "task title",
- *          "done": true
- *      }
+ *  HTTP/1.1 200 OK
+ *    {
+ *      "id": 1,
+ *      "title": "task title",
+ *      "done": true
+ *    }
  */
 export const getId = async (request: Request, response: Response) => {
 
-    const task: Task = await Task.findOne({ where: { id: request.params.id }, relations: ["user"] }).catch(() => null);
+  const task: Task = await Task.findOne({ where: { id: request.params.id }, relations: ["user"] }).catch(() => null);
 
-    if (!task) {
-        response.status(404);
-        response.send({ error: "Not found." });
-        return;
-    }
+  if (!task) {
+    response.status(404);
+    response.send({ error: "Not found." });
+    return;
+  }
 
-    if (task.user.id !== response.locals.userId) {
-        response.status(403);
-        response.send({ error: "Not allowed." });
-        return;
-    }
+  if (task.user.id !== response.locals.userId) {
+    response.status(403);
+    response.send({ error: "Not allowed." });
+    return;
+  }
 
-    delete (task.user);
-    response.status(200);
-    response.send(task);
+  delete (task.user);
+  response.status(200);
+  response.send(task);
 };

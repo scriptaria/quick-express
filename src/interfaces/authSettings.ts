@@ -1,5 +1,5 @@
 export interface AuthSettings {
-    secret: string;
-    accessExpires: number;
-    refreshExpires: number;
+  secret: string;
+  accessExpires: number;
+  refreshExpires: number;
 }

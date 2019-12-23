@@ -2,12 +2,12 @@ import { Module } from "src/core/interfaces";
 import { get } from "./handlers/get";
 
 export const module: Module = {
-    route: "/%NAME%",
-    endpoints: {
-        "/": {
-            get: {
-                handler: get,
-            },
-        },
+  route: "/%NAME%",
+  endpoints: {
+    "/": {
+      get: {
+        handler: get,
+      },
     },
+  },
 };

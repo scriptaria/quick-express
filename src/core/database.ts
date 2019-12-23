@@ -6,57 +6,57 @@ import { DefaultResponse } from "./interfaces";
 
 export class Database {
 
-    public connection: TypeORM.Connection;
-    private orm: any;
-    private settings: ConnectionOptions;
+  public connection: TypeORM.Connection;
+  private orm: any;
+  private settings: ConnectionOptions;
 
-    constructor() {
-        this.orm = TypeORM;
+  constructor() {
+    this.orm = TypeORM;
+  }
+
+  public setSettings(databaseOptions: ConnectionOptions): void {
+    const { entities, migrations, ...databaseSettings } = databaseOptions;
+
+    const newEntities = [];
+    for (const entitie of entities) {
+      newEntities.push(path.join(__dirname, "../", entitie + "/*.{js,ts}"));
     }
 
-    public setSettings(databaseOptions: ConnectionOptions): void {
-        const { entities, migrations, ...databaseSettings } = databaseOptions;
-
-        const newEntities = [];
-        for (const entitie of entities) {
-            newEntities.push(path.join(__dirname, "../", entitie + "/*.{js,ts}"));
-        }
-
-        const newMigrations = [];
-        for (const migration of migrations) {
-            newMigrations.push(path.join(__dirname, "../", migration + "/*.{js,ts}"));
-        }
-
-        this.settings = { ...databaseSettings, entities: newEntities, migrations: newMigrations };
+    const newMigrations = [];
+    for (const migration of migrations) {
+      newMigrations.push(path.join(__dirname, "../", migration + "/*.{js,ts}"));
     }
 
-    public start(): Promise<DefaultResponse> {
-        return new Promise((resolve) => {
+    this.settings = { ...databaseSettings, entities: newEntities, migrations: newMigrations };
+  }
 
-            this.orm.createConnection(this.settings)
-                .then((connection) => {
+  public start(): Promise<DefaultResponse> {
+    return new Promise((resolve) => {
 
-                    this.connection = connection;
+      this.orm.createConnection(this.settings)
+        .then((connection) => {
 
-                    resolve({ success: true });
-                })
-                .catch((error) => {
-                    resolve({ success: false, error });
-                });
+          this.connection = connection;
+
+          resolve({ success: true });
+        })
+        .catch((error) => {
+          resolve({ success: false, error });
         });
-    }
+    });
+  }
 
-    public stop(): Promise<DefaultResponse> {
-        return new Promise((resolve) => {
-            if (this.connection) {
-                this.connection.close().then(() => {
-                    resolve({ success: true });
-                });
-                return;
-            }
-
-            resolve({ success: false, error: "No open connection to close" });
+  public stop(): Promise<DefaultResponse> {
+    return new Promise((resolve) => {
+      if (this.connection) {
+        this.connection.close().then(() => {
+          resolve({ success: true });
         });
-    }
+        return;
+      }
+
+      resolve({ success: false, error: "No open connection to close" });
+    });
+  }
 
 }

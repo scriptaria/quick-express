@@ -5,46 +5,46 @@ import { AccessToken, Auth, RefreshToken } from "src/interfaces/auth";
 import { AuthSettings } from "src/interfaces/authSettings";
 
 const generateTimestamp = (minutes: number): number => {
-    return Math.floor(Date.now() / 1000) + (60 * minutes);
+  return Math.floor(Date.now() / 1000) + (60 * minutes);
 };
 
 const generateAccessToken = (userId: number, authSettings: AuthSettings): AccessToken => {
-    const accessPayload = {
-        type: "access",
-        user: userId,
-        exp: generateTimestamp(authSettings.accessExpires),
-    };
-    const access = Jwt.sign(accessPayload, authSettings.secret);
-    const accessExpires = new Date(accessPayload.exp * 1000);
+  const accessPayload = {
+    type: "access",
+    user: userId,
+    exp: generateTimestamp(authSettings.accessExpires),
+  };
+  const access = Jwt.sign(accessPayload, authSettings.secret);
+  const accessExpires = new Date(accessPayload.exp * 1000);
 
-    return { access, accessExpires };
+  return { access, accessExpires };
 };
 
 const generateRefreshToken = (userId: number, authSettings: AuthSettings): RefreshToken => {
-    const refreshPayload = {
-        type: "refresh",
-        user: userId,
-        exp: generateTimestamp(authSettings.refreshExpires),
-    };
-    const refresh = Jwt.sign(refreshPayload, authSettings.secret);
-    const refreshExpires = new Date(refreshPayload.exp * 1000);
+  const refreshPayload = {
+    type: "refresh",
+    user: userId,
+    exp: generateTimestamp(authSettings.refreshExpires),
+  };
+  const refresh = Jwt.sign(refreshPayload, authSettings.secret);
+  const refreshExpires = new Date(refreshPayload.exp * 1000);
 
-    return { refresh, refreshExpires };
+  return { refresh, refreshExpires };
 };
 
 export const generateTokens = (userId: number, authSettings: AuthSettings): Auth => {
-    return { ...generateAccessToken(userId, authSettings), ...generateRefreshToken(userId, authSettings) };
+  return { ...generateAccessToken(userId, authSettings), ...generateRefreshToken(userId, authSettings) };
 };
 
 export const decodeToken = (token: string, secret: string): Promise<DefaultResponse> => {
-    return new Promise((resolve) => {
-        Jwt.verify(token, secret, (error: VerifyErrors, decoded: any) => {
+  return new Promise((resolve) => {
+    Jwt.verify(token, secret, (error: VerifyErrors, decoded: any) => {
 
-            if (error) {
-                resolve({ success: false, error: error.message });
-            }
+      if (error) {
+        resolve({ success: false, error: error.message });
+      }
 
-            resolve({ success: true, result: decoded });
-        });
+      resolve({ success: true, result: decoded });
     });
+  });
 };

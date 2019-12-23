@@ -9,9 +9,9 @@ POST {{host}}/users
 Content-Type: application/json
 
 {
-    "email": "{{userEmail}}",
-    "password": "{{userPass}}",
-    "name": "{{userName}}"
+  "email": "{{userEmail}}",
+  "password": "{{userPass}}",
+  "name": "{{userName}}"
 }
 
 ### Log in user
@@ -20,8 +20,8 @@ POST {{host}}/users/login
 Content-Type: application/json
 
 {
-    "email": "{{userEmail}}",
-    "password": "{{userPass}}"
+  "email": "{{userEmail}}",
+  "password": "{{userPass}}"
 }
 
 ### Refresh auth tokens
@@ -30,7 +30,7 @@ POST {{host}}/users/refresh
 Content-Type: application/json
 
 {
-    "refresh": "{{userLogin.response.body.refresh}}"
+  "refresh": "{{userLogin.response.body.refresh}}"
 }
 
 ### Get user data
@@ -52,8 +52,8 @@ Content-Type: application/json
 Authorization: Bearer {{userLogin.response.body.access}}
 
 {
-    "title": "Examples task",
-    "done": false
+  "title": "Examples task",
+  "done": false
 }
 
 ### Get tasks
@@ -75,7 +75,7 @@ Content-Type: application/json
 Authorization: Bearer {{userLogin.response.body.access}}
 
 {
-    "done": true
+  "done": true
 }
 
 ### Delete task

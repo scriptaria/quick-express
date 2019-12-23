@@ -13,46 +13,46 @@ import { generateTokens } from "../helper";
  * @apiParam {String} refresh   Refresh token.
  *
  * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *      {
- *          "access": "accessToken",
- *          "accessExpires": "2019-12-16T08:41:14.988Z",
- *          "refresh": "refreshToken",
- *          "refreshExpires": "2020-01-16T08:41:14.988Z",
- *      }
+ *  HTTP/1.1 200 OK
+ *    {
+ *      "access": "accessToken",
+ *      "accessExpires": "2019-12-16T08:41:14.988Z",
+ *      "refresh": "refreshToken",
+ *      "refreshExpires": "2020-01-16T08:41:14.988Z",
+ *    }
  */
 export const postRefresh = (request: Request, response: Response) => {
 
-    if (!request.body.refresh) {
-        response.status(400);
-        response.send({ error: "Missing paramters." });
-        return;
+  if (!request.body.refresh) {
+    response.status(400);
+    response.send({ error: "Missing paramters." });
+    return;
+  }
+
+  Jwt.verify(request.body.refresh, settings.auth.secret, async (error: VerifyErrors, decoded: any) => {
+
+    if (error) {
+      response.status(400);
+      response.send({ error: error.message });
+      return;
     }
 
-    Jwt.verify(request.body.refresh, settings.auth.secret, async (error: VerifyErrors, decoded: any) => {
+    if (decoded.type !== "refresh") {
+      response.status(400);
+      response.send({ error: "Invalid token." });
+      return;
+    }
 
-        if (error) {
-            response.status(400);
-            response.send({ error: error.message });
-            return;
-        }
+    const user: User = await User.findOne({ id: decoded.user }).catch(() => null);
 
-        if (decoded.type !== "refresh") {
-            response.status(400);
-            response.send({ error: "Invalid token." });
-            return;
-        }
+    if (!user) {
+      response.status(404);
+      response.send({ error: "User not found." });
+      return;
+    }
 
-        const user: User = await User.findOne({ id: decoded.user }).catch(() => null);
-
-        if (!user) {
-            response.status(404);
-            response.send({ error: "User not found." });
-            return;
-        }
-
-        const tokens = generateTokens(user.id, settings.auth);
-        response.status(200);
-        response.send(tokens);
-    });
+    const tokens = generateTokens(user.id, settings.auth);
+    response.status(200);
+    response.send(tokens);
+  });
 };

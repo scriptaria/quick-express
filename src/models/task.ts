@@ -4,15 +4,15 @@ import { User } from "./user";
 @Entity("tasks")
 export class Task extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
-    public id: number;
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-    @Column({ length: 100, nullable: false })
-    public title: string;
+  @Column({ length: 100, nullable: false })
+  public title: string;
 
-    @Column({ nullable: false })
-    public done: boolean = false;
+  @Column({ nullable: false })
+  public done: boolean = false;
 
-    @ManyToOne((type) => User, (user) => user.tasks)
-    public user: User;
+  @ManyToOne((type) => User, (user) => user.tasks)
+  public user: User;
 }

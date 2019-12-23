@@ -8,35 +8,35 @@ import { User } from "src/models/user";
  * @apiGroup Users
  *
  * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *      [
- *          {
- *              "id": 1,
- *              "title": "task title",
- *              "done": true
- *          }
- *      ]
+ *  HTTP/1.1 200 OK
+ *    [
+ *      {
+ *        "id": 1,
+ *        "title": "task title",
+ *        "done": true
+ *      }
+ *    ]
  */
 export const getIdTasks = async (request: Request, response: Response) => {
 
-    const userId = request.params.id === "me" ? response.locals.userId : request.params.id;
+  const userId = request.params.id === "me" ? response.locals.userId : request.params.id;
 
-    const user: User = await User.findOne({ id: userId }).catch(() => null);
+  const user: User = await User.findOne({ id: userId }).catch(() => null);
 
-    if (!user) {
-        response.status(404);
-        response.send({ error: "User not found." });
-        return;
-    }
+  if (!user) {
+    response.status(404);
+    response.send({ error: "User not found." });
+    return;
+  }
 
-    const tasks: Task = await Task.find({ user }).catch(() => null);
+  const tasks: Task = await Task.find({ user }).catch(() => null);
 
-    if (!tasks) {
-        response.status(500);
-        response.send({ error: "Server error." });
-        return;
-    }
+  if (!tasks) {
+    response.status(500);
+    response.send({ error: "Server error." });
+    return;
+  }
 
-    response.status(200);
-    response.send(tasks);
+  response.status(200);
+  response.send(tasks);
 };
