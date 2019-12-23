@@ -109,14 +109,18 @@ export class Server {
 
     private config(): void {
 
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json());
+        this.app.use(cors());
+
         if (settings.staticFolder) {
             const folder = settings.staticFolder[0] === "/" ? settings.staticFolder.substr(1) : settings.staticFolder;
             this.app.use(this.baseRoute, express.static(folder));
         }
 
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(bodyParser.json());
-        this.app.use(cors());
+        if (settings.serveDoc) {
+            this.app.use(`${this.baseRoute}/doc`, express.static("doc"));
+        }
 
         this.app.use((request: Request, response: Response, next: NextFunction) => {
             response.setHeader("Instance", this.instance);
@@ -125,6 +129,5 @@ export class Server {
         });
 
         this.addStatusEndpoint();
-
     }
 }

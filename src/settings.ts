@@ -10,6 +10,7 @@ export const settings: Settings = {
     port: 3000,
     baseRoute: "/",
     staticFolder: "/static",
+    serveDoc: true,
     auth: {
         secret: String(process.env.AUTH_SECRET),
         accessExpires: 30,
