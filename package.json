@@ -1,6 +1,6 @@
 {
   "name": "quick-express",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "A ready to use rest API structure made with Express.js and Typescript.",
   "repository": "github:scriptaria/quick-express",
   "main": "build/core/bootstrap.js",

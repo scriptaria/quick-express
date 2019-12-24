@@ -16,7 +16,7 @@ describe("Users module", () => {
   describe("GET /%SLUG%", () => {
     it("Should make a successful 'get'", (done) => {
       request(bootstrap.server.app)
-        .get("/%SLUG%")
+        .get(`${bootstrap.server.baseRoute}/%SLUG%`)
         .expect(200)
         .then((result) => {
           done();
