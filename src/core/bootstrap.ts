@@ -1,14 +1,9 @@
 import "module-alias/register";
 
-import { boolean } from "boolean";
 import { settings } from "src/settings";
 import { Database } from "./database";
 import { Events } from "./events";
 import { Server } from "./server";
-
-if (boolean(process.env.CI)) {
-  settings.auth.secret = "abcd";
-}
 
 export const database = new Database();
 export const server = new Server(database);
@@ -32,17 +27,12 @@ export const startDatabase = () => {
   });
 };
 
-export const startServer = (ambient: "dev" | "prod" | "test") => {
+export const startServer = () => {
   return new Promise((resolve) => {
 
     server.loadModules();
 
-    let port = settings.port;
-    if (ambient === "test") {
-      port += 50;
-    }
-
-    server.start(port).then((result) => {
+    server.start(settings.port).then((result) => {
       resolve(result);
 
       if (!result.success) {
@@ -52,27 +42,33 @@ export const startServer = (ambient: "dev" | "prod" | "test") => {
       }
 
       Events.send("serverIsReady");
-      console.log(`Server running at port ${port}`);
+      console.log(`Server running at port ${settings.port}`);
     });
   });
 };
 
 export const start = (ambient: "dev" | "prod" | "test") => {
 
+  if (ambient === "test") {
+    settings.auth.secret = "abcd";
+    settings.port += 50;
+  }
+
   return new Promise((resolve) => {
 
     if (!settings.auth.secret) {
-      console.log("Missing the secret key, open your 'settings.ts' and place it.");
+      console.log("Missing the auth secret key, open your '.env' and place it.");
       resolve({ success: false, error: "Missing secret." });
       return;
     }
 
     const promises = [];
+
+    promises.push(startServer());
+
     if (settings.database) {
       promises.push(startDatabase());
     }
-
-    promises.push(startServer(ambient));
 
     Promise.all(promises)
       .then((results) => {
@@ -92,11 +88,12 @@ export const stop = () => {
   return new Promise((resolve) => {
 
     const promises = [];
+
+    promises.push(server.stop());
+
     if (settings.database) {
       promises.push(database.stop());
     }
-
-    promises.push(server.stop());
 
     Promise.all(promises)
       .then((results) => {

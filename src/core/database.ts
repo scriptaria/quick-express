@@ -18,8 +18,8 @@ export class Database {
     const { entities, migrations, ...databaseSettings } = databaseOptions;
 
     const newEntities = [];
-    for (const entitie of entities) {
-      newEntities.push(path.join(__dirname, "../", entitie + "/*.{js,ts}"));
+    for (const entity of entities) {
+      newEntities.push(path.join(__dirname, "../", entity + "/*.{js,ts}"));
     }
 
     const newMigrations = [];
