@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "preLaunchTask": "typescript",
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/build/core/bootstrap.js",
+      "args": ["start", "prod"],
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
+}
