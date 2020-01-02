@@ -9,7 +9,7 @@
     "serve": "node build/core/bootstrap.js start prod",
     "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "start": "npm run build && npm run serve",
-    "test": "jest --runInBand",
+    "test": "jest",
     "doc": "npm run build && apidoc -i build/ -o doc/",
     "quick": "ts-node src/core/cli.ts"
   },

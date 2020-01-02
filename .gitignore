@@ -4,3 +4,4 @@ node_modules/
 database.sqlite
 doc/
 .env
+coverage/

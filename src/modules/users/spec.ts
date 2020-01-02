@@ -14,10 +14,10 @@ describe("Users module", () => {
   beforeAll(async (done) => {
     await bootstrap.start("test");
     done();
-  }, 60000);
+  });
 
   afterAll(async (done) => {
-    await bootstrap.stop();
+    await bootstrap.stop("test");
     done();
   });
 

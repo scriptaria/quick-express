@@ -30,8 +30,6 @@ export const startDatabase = () => {
 export const startServer = () => {
   return new Promise((resolve) => {
 
-    server.loadModules();
-
     server.start(settings.port).then((result) => {
       resolve(result);
 
@@ -51,8 +49,9 @@ export const start = (ambient: "dev" | "prod" | "test") => {
 
   if (ambient === "test") {
     settings.auth.secret = "abcd";
-    settings.port += 50;
   }
+
+  server.loadModules();
 
   return new Promise((resolve) => {
 
@@ -64,7 +63,9 @@ export const start = (ambient: "dev" | "prod" | "test") => {
 
     const promises = [];
 
-    promises.push(startServer());
+    if (ambient !== "test") {
+      promises.push(startServer());
+    }
 
     if (settings.database) {
       promises.push(startDatabase());
@@ -84,12 +85,14 @@ export const start = (ambient: "dev" | "prod" | "test") => {
   });
 };
 
-export const stop = () => {
+export const stop = (ambient: "dev" | "prod" | "test") => {
   return new Promise((resolve) => {
 
     const promises = [];
 
-    promises.push(server.stop());
+    if (ambient !== "test") {
+      promises.push(server.stop());
+    }
 
     if (settings.database) {
       promises.push(database.stop());
