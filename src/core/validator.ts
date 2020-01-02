@@ -2,10 +2,10 @@ import { Request } from "express";
 import { validate } from "validate.js";
 import { DefaultResponse } from "./interfaces";
 
-interface Validations {
+export interface Validations {
   body?: any;
   query?: any;
-  parameters?: any;
+  params?: any;
 }
 
 export class Validator {
