@@ -3,6 +3,11 @@
 @userPass = examplePass!
 @userName = Example User
 
+### Get api status
+# @name apiStatus
+GET {{host}}/status
+Content-Type: application/json
+
 ### Register user
 # @name userRegister
 POST {{host}}/users
