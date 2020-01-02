@@ -9,8 +9,9 @@ Quick Express counts with:
 
 - ORM ([TypeORM](https://github.com/typeorm))
 - Tests ([Jest](https://github.com/facebook/jest) and [Super Test](https://github.com/visionmedia/supertest))
-- Documentation ([apidoc](https://apidocjs.com))
+- API Documentation ([apidoc](https://apidocjs.com))
 - JWT Authentication
+- A request parameters (request.body, request.query, request.params) validation system (that uses [validate.js](https://github.com/ansman/validate.js))
 - A great and organized project structure.
 
 # Getting started
