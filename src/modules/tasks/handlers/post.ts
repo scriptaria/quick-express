@@ -1,6 +1,7 @@
 import { boolean } from "boolean";
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
+import { Validator } from "src/core/validator";
 
 /**
  * @api {post} /tasks Create a Task
@@ -15,9 +16,23 @@ import { Task } from "src/models/task";
  */
 export const post = async (request: Request, response: Response) => {
 
-  if (!request.body.title) {
+  const validator = Validator.validate(request, {
+    body: {
+      title: {
+        presence: {
+          message: "is required to proceed",
+        },
+        length: {
+          minimum: 3,
+          message: "seems to be too short",
+        },
+      },
+    },
+  });
+
+  if (!validator.success) {
     response.status(400);
-    response.send({ error: "Missing paramters." });
+    response.send({ errors: validator.errors });
     return;
   }
 

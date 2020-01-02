@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
+import { Validator } from "src/core/validator";
 import { Task } from "src/models/task";
 import { User } from "src/models/user";
+import { validators } from "src/validators";
 
 /**
  * @api {get} /users/:id/tasks Get Tasks from a User
@@ -19,6 +21,23 @@ import { User } from "src/models/user";
  */
 export const getIdTasks = async (request: Request, response: Response) => {
 
+  const validator = Validator.validate(request, {
+    query: {
+      limit: {
+        numericality: {
+          message: "must be a number",
+        },
+      },
+    },
+  });
+
+  if (!validator.success) {
+    response.status(400);
+    response.send({ errors: validator.errors });
+    return;
+  }
+
+  const limit = request.query.limit ?? 10;
   const userId = request.params.id === "me" ? response.locals.userId : request.params.id;
 
   const user: User = await User.findOne({ id: userId }).catch(() => null);
@@ -29,7 +48,7 @@ export const getIdTasks = async (request: Request, response: Response) => {
     return;
   }
 
-  const tasks: Task = await Task.find({ user }).catch(() => null);
+  const tasks: Task = await Task.find({ where: { user }, take: limit }).catch(() => null);
 
   if (!tasks) {
     response.status(500);

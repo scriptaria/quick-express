@@ -29,6 +29,7 @@ export interface Module {
 export interface DefaultResponse {
   success: boolean;
   error?: string;
+  errors?: any;
   result?: any;
 }
 

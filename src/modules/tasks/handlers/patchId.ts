@@ -1,6 +1,7 @@
 import { boolean } from "boolean";
 import { Request, Response } from "express";
 import { Task } from "src/models/task";
+import { Validator } from "src/core/validator";
 
 /**
  * @api {patch} /tasks/:id Modify a Task by Id
@@ -14,6 +15,23 @@ import { Task } from "src/models/task";
  *  HTTP/1.1 200 OK
  */
 export const patchId = async (request: Request, response: Response) => {
+
+  const validator = Validator.validate(request, {
+    body: {
+      title: {
+        length: {
+          minimum: 3,
+          message: "seems to be too short",
+        },
+      },
+    },
+  });
+
+  if (!validator.success) {
+    response.status(400);
+    response.send({ errors: validator.errors });
+    return;
+  }
 
   const task: Task = await Task.findOne({ where: { id: request.params.id }, relations: ["user"] }).catch(() => null);
 

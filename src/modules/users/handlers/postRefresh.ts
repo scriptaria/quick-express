@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
+import { Validator } from "src/core/validator";
 import { User } from "src/models/user";
 import { settings } from "src/settings";
 import { generateTokens } from "../helper";
@@ -23,9 +24,19 @@ import { generateTokens } from "../helper";
  */
 export const postRefresh = (request: Request, response: Response) => {
 
-  if (!request.body.refresh) {
+  const validator = Validator.validate(request, {
+    body: {
+      refresh: {
+        presence: {
+          message: "is required",
+        },
+      },
+    },
+  });
+
+  if (!validator.success) {
     response.status(400);
-    response.send({ error: "Missing paramters." });
+    response.send({ errors: validator.errors });
     return;
   }
 

@@ -1,6 +1,8 @@
 import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { Validator } from "src/core/validator";
 import { User } from "src/models/user";
+import { validators } from "src/validators";
 
 /**
  * @api {post} /users Create a User
@@ -16,9 +18,25 @@ import { User } from "src/models/user";
  */
 export const post = async (request: Request, response: Response) => {
 
-  if (!request.body.email || !request.body.password || !request.body.name) {
+  const validator = Validator.validate(request, {
+    body: {
+      email: validators.email,
+      password: validators.password,
+      name: {
+        presence: {
+          message: "is required to proceed",
+        },
+        length: {
+          minimum: 3,
+          message: "seems to be too short",
+        },
+      },
+    },
+  });
+
+  if (!validator.success) {
     response.status(400);
-    response.send({ error: "Missing paramters." });
+    response.send({ errors: validator.errors });
     return;
   }
 
