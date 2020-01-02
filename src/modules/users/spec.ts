@@ -24,109 +24,55 @@ describe("Users module", () => {
   describe("Helper", () => {
     let tokens: { access: string, refresh: string };
 
-    it("Generate JWT token", (done) => {
+    it("Generate JWT token", () => {
       tokens = helper.generateTokens(1, settings.auth);
-
-      if (!("access" in tokens)) { throw new Error("Missing `access` key"); }
-      if (!("refresh" in tokens)) { throw new Error("Missing `refresh` key"); }
-
-      done();
+      const hasKeys = "access" in tokens && "refresh" in tokens;
+      expect(hasKeys).toBe(true);
     });
 
-    it("Decode JWT tokens", (done) => {
-      Promise.all([
+    it("Decode JWT tokens", async () => {
+      const result = await Promise.all([
         helper.decodeToken(tokens.access, settings.auth.secret),
         helper.decodeToken(tokens.refresh, settings.auth.secret),
-      ])
-        .then((results) => {
-
-          if (!results[0].success) {
-            throw new Error(`Fail trying to decode \`access\` token: ${results[0].error}`);
-          }
-
-          if (!results[1].success) {
-            throw new Error(`Fail trying to decode \`refresh\` token: ${results[1].error}`);
-          }
-
-          done();
-        })
-        .catch((error) => {
-          console.log(error);
-          throw new Error("Fail trying to decode `access` and `refresh` tokens");
-        });
+      ]).catch(() => null);
+      const success = result && result[0].success && result[1].success;
+      expect(success).toBe(true);
     });
   });
 
   describe("POST /users", () => {
-    it("Should register a new user", (done) => {
-      request(bootstrap.server.app)
+    it("Should register a new user", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/users`)
-        .send({ email, password, name })
-        .expect(201)
-        .then((result) => {
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ email, password, name });
+      expect(req.status).toBe(201);
     });
   });
 
   describe("POST /users/login", () => {
-    it("Should login the new user", (done) => {
-      request(bootstrap.server.app)
+    it("Should login the new user", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/users/login`)
-        .send({ email, password })
-        .expect(200)
-        .expect((response) => {
-          if (!("access" in response.body)) { throw new Error("Missing `token` key"); }
-          if (!("refresh" in response.body)) { throw new Error("Missing `refresh` key"); }
-        })
-        .then((response) => {
-          access = response.body.access;
-          refresh = response.body.refresh;
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ email, password });
+      access = req.body.access;
+      refresh = req.body.refresh;
+      expect(req.status).toBe(200);
     });
   });
 
   describe("POST /users/refresh", () => {
-    it("Should says that is a VALID refresh token", (done) => {
-      request(bootstrap.server.app)
+    it("Should says that is a VALID refresh token", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/users/refresh`)
-        .send({ refresh })
-        .expect(200)
-        .expect((response) => {
-          if (!("access" in response.body)) { throw new Error("Missing `token` key"); }
-          if (!("refresh" in response.body)) { throw new Error("Missing `refresh` key"); }
-        })
-        .then((response) => {
-          access = response.body.access;
-          refresh = response.body.refresh;
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ refresh });
+      expect(req.status).toBe(200);
     });
 
-    it("Should says that is an INVALID refresh token", (done) => {
-      request(bootstrap.server.app)
+    it("Should says that is an INVALID refresh token", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/users/refresh`)
-        .send({ refresh: "AnInvalidRefreshToken" })
-        .expect(400)
-        .expect((response) => {
-          if (!("error" in response.body)) { throw new Error("Missing `error` key"); }
-        })
-        .then((response) => {
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ refresh: "AnInvalidRefreshToken" });
+      expect(req.status).toBe(400);
     });
   });
 

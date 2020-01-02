@@ -11,24 +11,14 @@ describe("Quick Express Core", () => {
     const database = new Database();
     database.setSettings(settings.database);
 
-    test("Should connect with database", (done) => {
-      database.start()
-        .then((result) => {
-          expect(result.success).toBe(true);
-        })
-        .finally(() => {
-          done();
-        });
+    test("Should connect with database", async () => {
+      const result = await database.start();
+      expect(result.success).toBe(true);
     });
 
-    test("Should stop connection with database", (done) => {
-      database.stop()
-        .then((result) => {
-          expect(result.success).toBe(true);
-        })
-        .finally(() => {
-          done();
-        });
+    test("Should stop connection with database", async () => {
+      const result = await database.stop();
+      expect(result.success).toBe(true);
     });
   });
 
@@ -36,24 +26,14 @@ describe("Quick Express Core", () => {
     const server = new Server();
     const port = settings.port + 50;
 
-    test("Should start the server successfully", (done) => {
-      server.start(port)
-        .then((result) => {
-          expect(result.success).toBe(true);
-        })
-        .finally(() => {
-          done();
-        });
+    test("Should start the server successfully", async () => {
+      const result = await server.start(port);
+      expect(result.success).toBe(true);
     });
 
-    test("Should stop the server successfully", (done) => {
-      server.stop()
-        .then((result) => {
-          expect(result.success).toBe(true);
-        })
-        .finally(() => {
-          done();
-        });
+    test("Should stop the server successfully", async () => {
+      const result = await server.stop();
+      expect(result.success).toBe(true);
     });
   });
 

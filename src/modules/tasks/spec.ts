@@ -7,8 +7,6 @@ describe("Users module", () => {
   const password: string = "@DefaultTest!Password#$%¨&*";
   const name: string = "Test User";
   let access: string;
-  let refresh: string;
-  let taskId: number;
 
   beforeAll(async (done) => {
     await bootstrap.start("test");
@@ -21,58 +19,31 @@ describe("Users module", () => {
   });
 
   describe("POST /users", () => {
-    it("Should register a new user", (done) => {
-      request(bootstrap.server.app)
+    it("Should register a new user", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/users`)
-        .send({ email, password, name })
-        .expect(201)
-        .then((result) => {
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ email, password, name });
+      expect(req.status).toBe(201);
     });
   });
 
   describe("POST /users/login", () => {
-    it("Should login the new user", (done) => {
-      request(bootstrap.server.app)
+    it("Should login the new user", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/users/login`)
-        .send({ email, password })
-        .expect(200)
-        .expect((response) => {
-          if (!("access" in response.body)) { throw new Error("Missing `token` key"); }
-          if (!("refresh" in response.body)) { throw new Error("Missing `refresh` key"); }
-        })
-        .then((response) => {
-          access = response.body.access;
-          refresh = response.body.refresh;
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ email, password });
+      access = req.body.access;
+      expect(req.status).toBe(200);
     });
   });
 
   describe("POST /tasks", () => {
-    it("Should create a new task", (done) => {
-      request(bootstrap.server.app)
+    it("Should create a new task", async () => {
+      const req = await request(bootstrap.server.app)
         .post(`${bootstrap.server.baseRoute}/tasks`)
         .set("Authorization", `Bearer ${access}`)
-        .send({ title: "Example task" })
-        .expect(201)
-        .expect((response) => {
-          if (!("id" in response.body)) { throw new Error("Missing task `id` in the response."); }
-        })
-        .then((response) => {
-          taskId = response.body.id;
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+        .send({ title: "Example task" });
+      expect(req.status).toBe(201);
     });
   });
 
