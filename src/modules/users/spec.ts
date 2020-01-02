@@ -1,4 +1,5 @@
 import * as bootstrap from "src/core/bootstrap";
+import { Auth } from "src/interfaces/auth";
 import { settings } from "src/settings";
 import * as request from "supertest";
 import * as helper from "./helper";
@@ -22,11 +23,11 @@ describe("Users module", () => {
   });
 
   describe("Helper", () => {
-    let tokens: { access: string, refresh: string };
+    let tokens: Auth;
 
     it("Generate JWT token", () => {
       tokens = helper.generateTokens(1, settings.auth);
-      const hasKeys = "access" in tokens && "refresh" in tokens;
+      const hasKeys = "access" in tokens && "accessExpires" in tokens && "refresh" in tokens && "refreshExpires" in tokens;
       expect(hasKeys).toBe(true);
     });
 

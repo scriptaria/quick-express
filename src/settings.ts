@@ -19,7 +19,7 @@ export const settings: Settings = {
     port: Number(Env.get("DB_PORT")),
     username: Env.get("DB_USER"),
     password: Env.get("DB_PASS"),
-    database: Env.get("DB_NAME", "database.sqlite"),
+    database: Env.get("DB_NAME", ":memory:"),
     entities: [
       "/models/**",
     ],
