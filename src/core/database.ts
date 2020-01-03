@@ -30,7 +30,7 @@ export class Database {
     this.settings = { ...databaseSettings, entities: newEntities, migrations: newMigrations };
   }
 
-  public start(): Promise<DefaultResponse> {
+  public start(): Promise<DefaultResponse<void>> {
     return new Promise((resolve) => {
 
       this.orm.createConnection(this.settings)
@@ -46,7 +46,7 @@ export class Database {
     });
   }
 
-  public stop(): Promise<DefaultResponse> {
+  public stop(): Promise<DefaultResponse<void>> {
     return new Promise((resolve) => {
       if (this.connection) {
         this.connection.close().then(() => {

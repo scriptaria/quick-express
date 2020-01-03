@@ -6,25 +6,18 @@ describe("Users module", () => {
   beforeAll(async (done) => {
     await bootstrap.start("test");
     done();
-  }, 60000);
+  });
 
   afterAll(async (done) => {
-    await bootstrap.stop();
+    await bootstrap.stop("test");
     done();
   });
 
   describe("GET /%SLUG%", () => {
-    it("Should make a successful 'get'", (done) => {
-      request(bootstrap.server.app)
-        .get(`${bootstrap.server.baseRoute}/%SLUG%`)
-        .expect(200)
-        .then((result) => {
-          done();
-        })
-        .catch((error) => {
-          done(error);
-        });
+    it("Should make a successful 'get'", async () => {
+      const req = await request(bootstrap.server.app)
+        .get(`${bootstrap.server.baseRoute}/%SLUG%`);
+      expect(req.status).toBe(200);
     });
   });
-
 });

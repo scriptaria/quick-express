@@ -36,7 +36,7 @@ export const generateTokens = (userId: number, authSettings: AuthSettings): Auth
   return { ...generateAccessToken(userId, authSettings), ...generateRefreshToken(userId, authSettings) };
 };
 
-export const decodeToken = (token: string, secret: string): Promise<DefaultResponse> => {
+export const decodeToken = (token: string, secret: string): Promise<DefaultResponse<any>> => {
   return new Promise((resolve) => {
     Jwt.verify(token, secret, (error: VerifyErrors, decoded: any) => {
 
@@ -44,7 +44,7 @@ export const decodeToken = (token: string, secret: string): Promise<DefaultRespo
         resolve({ success: false, error: error.message });
       }
 
-      resolve({ success: true, result: decoded });
+      resolve({ success: true, data: decoded });
     });
   });
 };

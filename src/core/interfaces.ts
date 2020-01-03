@@ -26,11 +26,11 @@ export interface Module {
   };
 }
 
-export interface DefaultResponse {
+export interface DefaultResponse<T> {
   success: boolean;
   error?: string;
   errors?: any;
-  result?: any;
+  data?: T;
 }
 
 export interface BaseSettings {

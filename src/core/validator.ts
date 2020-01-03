@@ -9,7 +9,7 @@ export interface Validations {
 }
 
 export class Validator {
-  public static validate(request: Request, validations: Validations): DefaultResponse {
+  public static validate(request: Request, validations: Validations): DefaultResponse<void> {
 
     let success = true;
     const errors = {};

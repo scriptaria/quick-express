@@ -37,7 +37,7 @@ export class Server {
     return baseRoute;
   }
 
-  public start(port: number): Promise<DefaultResponse> {
+  public start(port: number): Promise<DefaultResponse<void>> {
     return new Promise((resolve) => {
       if (this.listen) {
         resolve({ success: false, error: "Server already running" });
@@ -50,7 +50,7 @@ export class Server {
     });
   }
 
-  public stop(): Promise<DefaultResponse> {
+  public stop(): Promise<DefaultResponse<void>> {
     return new Promise((resolve) => {
       if (!this.listen) {
         resolve({ success: false, error: "Server not running" });

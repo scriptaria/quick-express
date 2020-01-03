@@ -21,13 +21,13 @@ export const auth = (request: Request, response: Response, next: NextFunction) =
       return;
     }
 
-    if (result.result.type !== "access") {
+    if (result.data.type !== "access") {
       response.status(401);
       response.send({ error: "Not a valid access token" });
       return;
     }
 
-    response.locals.userId = result.result.user;
+    response.locals.userId = result.data.user;
     response.locals.user = await User.findOne({ id: response.locals.userId }).catch(() => null);
 
     next();
