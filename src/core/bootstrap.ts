@@ -6,7 +6,7 @@ import { Events } from "./events";
 import { Server } from "./server";
 
 export const database = new Database();
-export const server = new Server(database);
+export const server = new Server(settings, database);
 
 export const startDatabase = () => {
   return new Promise((resolve) => {
@@ -49,6 +49,13 @@ export const start = (ambient: "dev" | "prod" | "test") => {
 
   if (ambient === "test") {
     settings.auth.secret = "abcd";
+    settings.database = settings.database ? {
+      synchronize: true,
+      type: "sqlite",
+      database: ":memory:",
+      entities: settings.database.entities,
+      migrations: settings.database.migrations,
+    } : null;
   }
 
   server.loadModules();

@@ -10,7 +10,7 @@ export class Env {
   public static get(key: string, defaultValue?: string | number | boolean): any {
     const value = process.env[key];
 
-    if (defaultValue !== undefined && (value === undefined || value === null)) {
+    if (defaultValue !== undefined && value === undefined) {
       return defaultValue;
     }
 

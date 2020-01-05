@@ -1,4 +1,5 @@
 import { settings } from "src/settings";
+import * as request from "supertest";
 import { Database } from "./database";
 import { Env } from "./env";
 import { Events } from "./events";
@@ -16,14 +17,24 @@ describe("Quick Express Core", () => {
       expect(result.success).toBe(true);
     });
 
+    test("Should NOT connect with database", async () => {
+      const result = await database.start();
+      expect(result.success).toBe(false);
+    });
+
     test("Should stop connection with database", async () => {
       const result = await database.stop();
       expect(result.success).toBe(true);
     });
+
+    test("Should NOT stop connection with database", async () => {
+      const result = await database.stop();
+      expect(result.success).toBe(false);
+    });
   });
 
   describe("Server", () => {
-    const server = new Server();
+    const server = new Server(settings);
     const port = settings.port + 50;
 
     test("Should start the server successfully", async () => {
@@ -31,9 +42,25 @@ describe("Quick Express Core", () => {
       expect(result.success).toBe(true);
     });
 
+    test("Should NOT start the server successfully", async () => {
+      const result = await server.start(port);
+      expect(result.success).toBe(false);
+    });
+
+    test("Should get the server status", async () => {
+      const req = await request(server.app)
+        .get(`${server.baseRoute}/status`);
+      expect(req.status).toBe(200);
+    });
+
     test("Should stop the server successfully", async () => {
       const result = await server.stop();
       expect(result.success).toBe(true);
+    });
+
+    test("Should NOT stop the server successfully", async () => {
+      const result = await server.stop();
+      expect(result.success).toBe(false);
     });
   });
 

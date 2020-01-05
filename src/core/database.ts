@@ -33,11 +33,14 @@ export class Database {
   public start(): Promise<DefaultResponse<void>> {
     return new Promise((resolve) => {
 
+      if (this.connection) {
+        resolve({ success: false, error: "Already with an open connection" });
+        return;
+      }
+
       this.orm.createConnection(this.settings)
         .then((connection) => {
-
           this.connection = connection;
-
           resolve({ success: true });
         })
         .catch((error) => {
@@ -48,14 +51,19 @@ export class Database {
 
   public stop(): Promise<DefaultResponse<void>> {
     return new Promise((resolve) => {
-      if (this.connection) {
-        this.connection.close().then(() => {
-          resolve({ success: true });
-        });
+      if (!this.connection) {
+        resolve({ success: false, error: "No open connection to close" });
         return;
       }
 
-      resolve({ success: false, error: "No open connection to close" });
+      this.connection.close()
+        .then(() => {
+          delete this.connection;
+          resolve({ success: true });
+        })
+        .catch((error) => {
+          resolve({ success: false, error });
+        });
     });
   }
 
