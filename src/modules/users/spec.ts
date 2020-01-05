@@ -11,6 +11,7 @@ describe("Users module", () => {
   const name: string = "Test User";
   let access: string;
   let refresh: string;
+  let invalidAccess: string;
 
   beforeAll(async (done) => {
     await bootstrap.start("test");
@@ -26,8 +27,9 @@ describe("Users module", () => {
     let tokens: Auth;
 
     it("Generate JWT token", () => {
-      tokens = helper.generateTokens(1, settings.auth);
+      tokens = helper.generateTokens(-5, settings.auth);
       const hasKeys = "access" in tokens && "accessExpires" in tokens && "refresh" in tokens && "refreshExpires" in tokens;
+      invalidAccess = tokens.access;
       expect(hasKeys).toBe(true);
     });
 
@@ -74,6 +76,42 @@ describe("Users module", () => {
         .post(`${bootstrap.server.baseRoute}/users/refresh`)
         .send({ refresh: "AnInvalidRefreshToken" });
       expect(req.status).toBe(400);
+    });
+  });
+
+  describe("GET /users/:id", () => {
+    it("Should receive logged user data", async () => {
+      const req = await request(bootstrap.server.app)
+        .get(`${bootstrap.server.baseRoute}/users/me`)
+        .set("Authorization", `Bearer ${access}`);
+      expect(req.status).toBe(200);
+    });
+
+    it("Should NOT receive logged user data: invalid auth token", async () => {
+      const req = await request(bootstrap.server.app)
+        .get(`${bootstrap.server.baseRoute}/users/me`)
+        .set("Authorization", `Bearer invalid.token`);
+      expect(req.status).toBe(401);
+    });
+
+    it("Should NOT receive logged user data: wrong auth token", async () => {
+      const req = await request(bootstrap.server.app)
+        .get(`${bootstrap.server.baseRoute}/users/me`)
+        .set("Authorization", `Bearer ${refresh}`);
+      expect(req.status).toBe(401);
+    });
+
+    it("Should NOT receive logged user data: invalid access token", async () => {
+      const req = await request(bootstrap.server.app)
+        .get(`${bootstrap.server.baseRoute}/users/me`)
+        .set("Authorization", `Bearer ${invalidAccess}`);
+      expect(req.status).toBe(401);
+    });
+
+    it("Should NOT receive logged user data: no auth token", async () => {
+      const req = await request(bootstrap.server.app)
+        .get(`${bootstrap.server.baseRoute}/users/me`);
+      expect(req.status).toBe(401);
     });
   });
 

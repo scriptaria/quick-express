@@ -5,7 +5,6 @@ import { Express, NextFunction, Request, Response } from "express";
 import * as Glob from "glob";
 import { Server as HttpServer } from "http";
 import { Settings } from "src/interfaces/settings";
-import * as middleware from "src/middleware";
 import { Database } from "./database";
 import { DefaultResponse, Module } from "./interfaces";
 
@@ -77,8 +76,8 @@ export class Server {
         for (const method in methods) {
 
           if (methods[method].middleware) {
-            for (const methodMiddleware of methods[method].middleware) {
-              router[method](endpoint, middleware[methodMiddleware]);
+            for (const middleware of methods[method].middleware) {
+              router[method](endpoint, middleware);
             }
           }
 

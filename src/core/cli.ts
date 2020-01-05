@@ -1,7 +1,6 @@
-import * as camelCase from "camelcase";
+import { camelCase, paramCase, pascalCase } from "change-case";
 import * as program from "commander";
 import * as fs from "fs";
-import * as slug from "slug";
 import { Replacement } from "./interfaces";
 
 program.version("0.0.1");
@@ -27,13 +26,17 @@ const makeDir = (path: string): void => {
   }
 };
 
-const getByTemplate = (path: string, replacements: Replacement[] = null): string => {
+const getByTemplate = (path: string, name: string): string => {
+  const replacements: Replacement[] = [
+    { regex: /\%CAMEL_CASE_NAME\%/, value: camelCase(name) },
+    { regex: /\%PASCAL_CASE_NAME\%/, value: pascalCase(name) },
+    { regex: /\%PARAM_CASE_NAME\%/, value: paramCase(name) },
+  ];
+
   let result = fs.readFileSync(path, { encoding: "utf-8" });
 
-  if (replacements) {
-    for (const replacement of replacements) {
-      result = replaceAll(result, replacement.regex, replacement.value);
-    }
+  for (const replacement of replacements) {
+    result = replaceAll(result, replacement.regex, replacement.value);
   }
 
   return result;
@@ -55,15 +58,10 @@ const createModule = (name: string): void => {
   makeDir(`${srcFolder}/modules/${name}`);
   makeDir(`${srcFolder}/modules/${name}/handlers`);
 
-  const moduleIndex = getByTemplate(`${srcFolder}/core/templates/module/index`, [
-    { regex: /\%NAME\%/, value: slug(name) },
-  ]);
-  const moduleHelper = getByTemplate(`${srcFolder}/core/templates/module/helper`);
-  const moduleHandlerGet = getByTemplate(`${srcFolder}/core/templates/module/handlers/get`);
-  const moduleSpec = getByTemplate(`${srcFolder}/core/templates/module/spec`, [
-    { regex: /\%NAME\%/, value: capitalizeFirstLetter(name) },
-    { regex: /\%SLUG\%/, value: slug(name) },
-  ]);
+  const moduleIndex = getByTemplate(`${srcFolder}/core/templates/module/index`, name);
+  const moduleHelper = getByTemplate(`${srcFolder}/core/templates/module/helper`, name);
+  const moduleHandlerGet = getByTemplate(`${srcFolder}/core/templates/module/handlers/get`, name);
+  const moduleSpec = getByTemplate(`${srcFolder}/core/templates/module/spec`, name);
 
   createFile(`${srcFolder}/modules/${name}/index.ts`, moduleIndex);
   createFile(`${srcFolder}/modules/${name}/helper.ts`, moduleHelper);
@@ -73,12 +71,14 @@ const createModule = (name: string): void => {
 
 const createModel = (name: string): void => {
   makeDir(`${srcFolder}/models`);
-
-  const model = getByTemplate(`${srcFolder}/core/templates/model`, [
-    { regex: /\%NAME\%/, value: capitalizeFirstLetter(name) },
-  ]);
-
+  const model = getByTemplate(`${srcFolder}/core/templates/model`, name);
   createFile(`${srcFolder}/models/${name}.ts`, model);
+};
+
+const createMiddleware = (name: string): void => {
+  makeDir(`${srcFolder}/middleware`);
+  const middleware = getByTemplate(`${srcFolder}/core/templates/middleware`, name);
+  createFile(`${srcFolder}/middleware/${name}.ts`, middleware);
 };
 
 program
@@ -86,7 +86,7 @@ program
   .description("Generate a new Quick Express component")
   .action((option, name) => {
 
-    const validOptions: string[] = ["module", "model"];
+    const validOptions: string[] = ["module", "model", "middleware"];
 
     if (!option || !name) {
       console.log("For 'generate', an option and a name are required.");
@@ -98,14 +98,16 @@ program
       return;
     }
 
-    const treatedName = camelCase(name);
-
     if (option === "module") {
-      createModule(treatedName);
+      createModule(name);
     }
 
     if (option === "model") {
-      createModel(treatedName);
+      createModel(name);
+    }
+
+    if (option === "middleware") {
+      createMiddleware(name);
     }
   });
 

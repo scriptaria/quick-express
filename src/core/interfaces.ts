@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Subject } from "rxjs";
 import { ConnectionOptions } from "typeorm";
 
@@ -11,12 +11,30 @@ export interface Replacement {
   value: string;
 }
 
+export type Middleware = (request: Request, response: Response, next: NextFunction) => void;
+export type Handler = (request: Request, response: Response) => void;
+
 export interface Route {
-  delete?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
-  get?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
-  patch?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
-  post?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
-  put?: { handler: (request: Request, response: Response) => void, middleware?: string[] };
+  delete?: {
+    handler: Handler,
+    middleware?: Middleware[],
+  };
+  get?: {
+    handler: Handler,
+    middleware?: Middleware[],
+  };
+  patch?: {
+    handler: Handler,
+    middleware?: Middleware[],
+  };
+  post?: {
+    handler: Handler,
+    middleware?: Middleware[],
+  };
+  put?: {
+    handler: Handler,
+    middleware?: Middleware[],
+  };
 }
 
 export interface Module {

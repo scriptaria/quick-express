@@ -12,6 +12,19 @@ describe("Quick Express Core", () => {
     const database = new Database();
     database.setSettings(settings.database);
 
+    const invalidDatabase = new Database();
+    invalidDatabase.setSettings({
+      type: "invalidOne",
+      database: ":memory:",
+      entities: settings.database.entities,
+      migrations: settings.database.migrations,
+    } as any);
+
+    test("Should NOT connect with an invalid database", async () => {
+      const result = await invalidDatabase.start();
+      expect(result.success).toBe(false);
+    });
+
     test("Should connect with database", async () => {
       const result = await database.start();
       expect(result.success).toBe(true);
@@ -113,7 +126,7 @@ describe("Quick Express Core", () => {
     };
 
     test("A valid request", () => {
-      const request = {
+      const requestData = {
         body: {
           email: "valid@email.example",
         },
@@ -125,12 +138,12 @@ describe("Quick Express Core", () => {
         },
       };
 
-      const result = Validator.validate(request as any, rules);
+      const result = Validator.validate(requestData as any, rules);
       expect(result.success).toBe(true);
     });
 
     test("A invalid request", () => {
-      const request = {
+      const requestData = {
         body: {
           email: "email.example",
         },
@@ -139,7 +152,7 @@ describe("Quick Express Core", () => {
         },
       };
 
-      const result = Validator.validate(request as any, rules);
+      const result = Validator.validate(requestData as any, rules);
       expect(result.success).toBe(false);
     });
   });

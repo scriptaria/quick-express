@@ -1,4 +1,5 @@
 import { Module } from "src/core/interfaces";
+import { auth } from "src/middleware/auth";
 import { getId } from "./handlers/getId";
 import { getIdTasks } from "./handlers/getIdTasks";
 import { post } from "./handlers/post";
@@ -28,14 +29,14 @@ export const module: Module = {
 
     "/:id": {
       get: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: getId,
       },
     },
 
     "/:id/tasks": {
       get: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: getIdTasks,
       },
     },

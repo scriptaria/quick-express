@@ -23,7 +23,7 @@ Make a copy of `.env.example` and rename it to `.env`, in this file you'll put a
 The `src` is where your source code stays.
 
 - Your modules (routes and endpoints) in `src/modules/`
-- Your middleware in `src/middleware.ts`
+- Your middleware in `src/middleware/`
 - Your models in `src/models/`
 
 ---
@@ -50,6 +50,7 @@ Quick Express comes with a simple CLI tool to generate components such as Models
 
     npm run quick generate module nameOfMyModule
     npm run quick generate model nameOfMyModel
+    npm run quick generate middleware nameOfMyMiddleware
 
 ## Documentation
 

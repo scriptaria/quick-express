@@ -1,4 +1,5 @@
 import { Module } from "src/core/interfaces";
+import { auth } from "src/middleware/auth";
 import { deleteId } from "./handlers/deleteId";
 import { get } from "./handlers/get";
 import { getId } from "./handlers/getId";
@@ -10,29 +11,29 @@ export const module: Module = {
   endpoints: {
     "/": {
       get: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: get,
       },
 
       post: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: post,
       },
     },
 
     "/:id": {
       get: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: getId,
       },
 
       patch: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: patchId,
       },
 
       delete: {
-        middleware: ["auth"],
+        middleware: [auth],
         handler: deleteId,
       },
     },

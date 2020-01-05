@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class %NAME% extends BaseEntity {
+export class %PASCAL_CASE_NAME% extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   public id: number;
