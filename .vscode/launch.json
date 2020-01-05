@@ -12,9 +12,6 @@
       ],
       "restart": true,
       "port": 9229,
-      "outFiles": [
-        "${workspaceFolder}/build/**/*.js"
-      ],
       "console": "integratedTerminal"
     }
   ]

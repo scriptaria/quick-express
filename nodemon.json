@@ -4,6 +4,6 @@
   ],
   "ext": "ts",
   "execMap": {
-    "ts": "node --inspect-brk -r ts-node/register"
+    "ts": "node --inspect-brk=9229 -r ts-node/register"
   }
 }
