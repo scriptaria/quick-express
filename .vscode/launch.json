@@ -2,19 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "preLaunchTask": "typescript",
       "type": "node",
       "request": "launch",
-      "name": "nodemon",
-      "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/build/core/bootstrap.js",
-      "args": ["start", "prod"],
+      "name": "Serve (nodemon)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run-script",
+        "nodemon"
+      ],
       "restart": true,
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ]
+      "port": 9229,
+      "outFiles": [
+        "${workspaceFolder}/build/**/*.js"
+      ],
+      "console": "integratedTerminal"
     }
   ]
 }

@@ -8,6 +8,7 @@
     "build": "cleandir build && tsc",
     "serve": "node build/core/bootstrap.js start prod",
     "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "nodemon": "nodemon src/core/bootstrap.ts start dev",
     "start": "npm run build && npm run serve",
     "test": "jest",
     "doc": "npm run build && apidoc -i build/ -o doc/",

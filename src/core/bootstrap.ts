@@ -47,6 +47,8 @@ export const startServer = () => {
 
 export const start = (ambient: "dev" | "prod" | "test") => {
 
+  console.log("Starting...");
+
   if (ambient === "test") {
     settings.auth.secret = "abcd";
     settings.database = settings.database ? {
