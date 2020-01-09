@@ -1,4 +1,7 @@
-import "module-alias/register";
+import * as moduleAlias from "module-alias";
+moduleAlias.addAliases({
+  "src": `${__dirname}/..`,
+});
 
 import { settings } from "src/settings";
 import { Database } from "./database";

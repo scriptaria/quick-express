@@ -23,9 +23,6 @@
   "apidoc": {
     "title": "Quick Express - Documentation"
   },
-  "_moduleAliases": {
-    "src": "build"
-  },
   "dependencies": {
     "apidoc": "0.19.1",
     "bcrypt": "3.0.6",
@@ -60,6 +57,7 @@
     "@types/glob": "7.1.1",
     "@types/jest": "24.0.25",
     "@types/jsonwebtoken": "8.3.5",
+    "@types/module-alias": "2.0.0",
     "@types/node": "12.12.21",
     "@types/supertest": "2.0.8",
     "jest": "24.9.0",
