@@ -18,13 +18,22 @@ Quick Express counts with:
 
 ## Configure and understand your project
 
-Make a copy of `.env.example` and rename it to `.env`, in this file you'll put all your sensitive and environment settings. Is recommended to not commit the `.env` file.
+### Environment settings
+You will need a `.env` file. In this file, you put all your sensitive and environment info.
 
-The `src` is where your source code stays.
+Running the command `npm run generate env sqlite`, a `.env` file will be generated using the requested template (_sqlite_, _mysql_ or _postgres_).
+
+Note¹: _sqlite_, _mysql_ and _postgres_ are just the supported templates by the CLI for now, but you can use any database that is supported by [TypeORM](https://github.com/typeorm)
+
+Note²: if you prefer, you can just make a copy of `.env.example` and name it as `.env`
+
+**Is recommended to not commit the `.env` file.**
+
+### The `src` directory is where your source code stays.
 
 - Your modules (routes and endpoints) in `src/modules/`
 - Your middleware in `src/middleware/`
-- Your models in `src/models/`
+- Your db models in `src/models/`
 
 ---
 
@@ -46,11 +55,14 @@ And the project also comes with a module called 'tasks', that shows you the appr
 
 ## CLI Tool
 
-Quick Express comes with a simple CLI tool to generate components such as Models and Modules, take a try:
+The project also comes with a simple CLI tool to generate components such as Models and Modules, take a try:
 
-    npm run quick generate module nameOfMyModule
-    npm run quick generate model nameOfMyModel
-    npm run quick generate middleware nameOfMyMiddleware
+    npm run generate module nameOfMyModule
+    npm run generate model nameOfMyModel
+    npm run generate middleware nameOfMyMiddleware
+    npm run generate env sqlite
+    npm run generate env mysql
+    npm run generate env postgres
 
 ## Documentation
 

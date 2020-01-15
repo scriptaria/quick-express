@@ -1,0 +1,11 @@
+# AUTH SETTINGS
+AUTH_SECRET=%VALUE%
+
+# DATABASE SETTINGS
+DB_TYPE=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=quickdb
+DB_USER=root
+DB_PASS=password
+DB_SYNC=true

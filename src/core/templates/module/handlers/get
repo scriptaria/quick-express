@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { counter, increment } from "../helper";
 
 /**
- * @api {get} /%PARAM_CASE_NAME% Get %PASCAL_CASE_NAME%
- * @apiName Get%PASCAL_CASE_NAME%
- * @apiGroup %PASCAL_CASE_NAME%
+ * @api {get} /%PARAM_CASE_VALUE% Get %PASCAL_CASE_VALUE%
+ * @apiName Get%PASCAL_CASE_VALUE%
+ * @apiGroup %PASCAL_CASE_VALUE%
  *
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK

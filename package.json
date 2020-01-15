@@ -12,7 +12,7 @@
     "start": "npm run build && npm run serve",
     "test": "jest",
     "doc": "npm run build && apidoc -i build/ -o doc/",
-    "quick": "ts-node src/core/cli.ts"
+    "generate": "ts-node src/core/cli.ts generate"
   },
   "author": {
     "name": "José Camelo de Freitas",
@@ -58,6 +58,8 @@
     "@types/module-alias": "2.0.0",
     "@types/node": "12.12.21",
     "@types/supertest": "2.0.8",
+    "colors": "1.4.0",
+    "commander": "4.1.0",
     "jest": "24.9.0",
     "nodemon": "2.0.2",
     "supertest": "4.0.2",

@@ -1,0 +1,7 @@
+# AUTH SETTINGS
+AUTH_SECRET=%VALUE%
+
+# DATABASE SETTINGS
+DB_TYPE=sqlite
+DB_NAME=database.sqlite
+DB_SYNC=true

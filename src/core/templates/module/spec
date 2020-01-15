@@ -1,7 +1,7 @@
 import * as bootstrap from "src/core/bootstrap";
 import * as request from "supertest";
 
-describe("%PASCAL_CASE_NAME% module", () => {
+describe("%PASCAL_CASE_VALUE% module", () => {
 
   beforeAll(async (done) => {
     await bootstrap.start("test");
@@ -13,10 +13,10 @@ describe("%PASCAL_CASE_NAME% module", () => {
     done();
   });
 
-  describe("GET /%PARAM_CASE_NAME%", () => {
+  describe("GET /%PARAM_CASE_VALUE%", () => {
     it("Should make a successful 'get'", async () => {
       const req = await request(bootstrap.server.app)
-        .get(`${bootstrap.server.baseRoute}/%PARAM_CASE_NAME%`);
+        .get(`${bootstrap.server.baseRoute}/%PARAM_CASE_VALUE%`);
       expect(req.status).toBe(200);
     });
   });

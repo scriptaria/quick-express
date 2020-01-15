@@ -1,9 +1,11 @@
+import { genSaltSync } from "bcrypt";
 import { camelCase, paramCase, pascalCase } from "change-case";
-import * as program from "commander";
+import * as colors from "colors/safe";
+import * as commander from "commander";
 import * as fs from "fs";
 import { Replacement } from "./interfaces";
 
-program.version("0.0.1");
+commander.version("0.0.1");
 
 const srcFolder: string = "src";
 
@@ -26,11 +28,12 @@ const makeDir = (path: string): void => {
   }
 };
 
-const getByTemplate = (path: string, name: string): string => {
+const getByTemplate = (path: string, value: string): string => {
   const replacements: Replacement[] = [
-    { regex: /\%CAMEL_CASE_NAME\%/, value: camelCase(name) },
-    { regex: /\%PASCAL_CASE_NAME\%/, value: pascalCase(name) },
-    { regex: /\%PARAM_CASE_NAME\%/, value: paramCase(name) },
+    { regex: /\%CAMEL_CASE_VALUE\%/, value: camelCase(value) },
+    { regex: /\%PASCAL_CASE_VALUE\%/, value: pascalCase(value) },
+    { regex: /\%PARAM_CASE_VALUE\%/, value: paramCase(value) },
+    { regex: /\%VALUE\%/, value },
   ];
 
   let result = fs.readFileSync(path, { encoding: "utf-8" });
@@ -46,7 +49,7 @@ const createFile = (path: string, content: string): void => {
   fs.writeFile(path, content, { flag: "wx" }, (error) => {
 
     if (error) {
-      console.log(`Could not create file: ${path}`);
+      console.log(colors.red(`Could not create file: ${path}`));
       return false;
     }
 
@@ -81,34 +84,49 @@ const createMiddleware = (name: string): void => {
   createFile(`${srcFolder}/middleware/${name}.ts`, middleware);
 };
 
-program
-  .command("generate [option] [name]")
+const createEnv = (type: string): void => {
+  const secretHash = genSaltSync();
+  const env = getByTemplate(`${srcFolder}/core/templates/env/${type}`, secretHash);
+  createFile(".env", env);
+};
+
+commander
+  .command("generate [option] [value]")
   .description("Generate a new Quick Express component")
-  .action((option, name) => {
+  .action((option, value) => {
 
-    const validOptions: string[] = ["module", "model", "middleware"];
+    const validOptions: string[] = ["module", "model", "middleware", "env"];
 
-    if (!option || !name) {
-      console.log("For 'generate', an option and a name are required.");
+    if (!option || !value) {
+      console.log(colors.red("For 'generate', an option and a value are required."));
       return;
     }
 
     if (!validOptions.includes(option)) {
-      console.log(`'${option}' is not a valid 'generate' option.`);
+      console.log(colors.red(`'${option}' is not a valid 'generate' option.`));
       return;
     }
 
     if (option === "module") {
-      createModule(name);
+      createModule(value);
     }
 
     if (option === "model") {
-      createModel(name);
+      createModel(value);
     }
 
     if (option === "middleware") {
-      createMiddleware(name);
+      createMiddleware(value);
+    }
+
+    if (option === "env") {
+      const validTemplate: string[] = ["sqlite", "mysql", "postgres"];
+      if (!validTemplate.includes(value)) {
+        console.log(colors.red(`'${value}' is not a valid 'env' template.`));
+        return;
+      }
+      createEnv(value);
     }
   });
 
-program.parse(process.argv);
+commander.parse(process.argv);

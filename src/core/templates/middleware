@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export const %CAMEL_CASE_NAME% = async (request: Request, response: Response, next: NextFunction) => {
+export const %CAMEL_CASE_VALUE% = async (request: Request, response: Response, next: NextFunction) => {
 
   // TODO: implement your middleware logic
 
