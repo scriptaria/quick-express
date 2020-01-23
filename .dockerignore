@@ -1,0 +1,7 @@
+node_modules/
+coverage/
+.Trash-0/
+build/
+doc/
+database.sqlite
+.env
