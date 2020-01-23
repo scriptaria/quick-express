@@ -19,6 +19,8 @@
     "node_modules",
     "build",
     "src/core/cli.ts",
+    "src/**/*spec.ts",
+    "src/**/*test.ts",
   ],
   "include": [
     "src/**/*.ts",

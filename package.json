@@ -5,7 +5,7 @@
   "repository": "github:scriptaria/quick-express",
   "main": "build/core/bootstrap.js",
   "scripts": {
-    "build": "del-cli build && tsc",
+    "build": "del-cli build && tsc -p tsconfig.json",
     "serve": "node build/core/bootstrap.js start prod",
     "database": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "nodemon": "nodemon src/core/bootstrap.ts start dev",
