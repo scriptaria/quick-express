@@ -68,7 +68,7 @@ export const start = (ambient: "dev" | "prod" | "test") => {
   return new Promise((resolve) => {
 
     if (!settings.auth.secret) {
-      console.log("Missing the auth secret key, open your '.env' and place it.");
+      console.log("Missing the auth secret key. Add AUTH_SECRET to your environment variables.");
       resolve({ success: false, error: "Missing secret." });
       return;
     }
