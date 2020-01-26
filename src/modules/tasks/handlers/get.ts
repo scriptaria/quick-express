@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { validateRequest } from "src/core/validator";
 import { Task } from "src/models/task";
-import { Validator } from "src/core/validator";
 
 /**
  * @api {get} /tasks Get Tasks
@@ -19,7 +19,7 @@ import { Validator } from "src/core/validator";
  */
 export const get = async (request: Request, response: Response) => {
 
-  const validator = Validator.validate(request, {
+  const validations = validateRequest(request, {
     query: {
       limit: {
         numericality: {
@@ -29,9 +29,9 @@ export const get = async (request: Request, response: Response) => {
     },
   });
 
-  if (!validator.success) {
+  if (!validations.success) {
     response.status(400);
-    response.send({ errors: validator.errors });
+    response.send({ errors: validations.errors });
     return;
   }
 

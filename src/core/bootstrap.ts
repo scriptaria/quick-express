@@ -5,7 +5,7 @@ moduleAlias.addAliases({
 
 import { settings } from "src/settings";
 import { Database } from "./database";
-import { Events } from "./events";
+import { listenEvent, sendEvent } from "./events";
 import { Server } from "./server";
 
 export const database = new Database();
@@ -24,7 +24,7 @@ export const startDatabase = () => {
         return;
       }
 
-      Events.send("databaseIsReady");
+      sendEvent("databaseIsReady");
       console.log("Successful connection with the database");
     });
   });
@@ -42,7 +42,7 @@ export const startServer = () => {
         return;
       }
 
-      Events.send("serverIsReady");
+      sendEvent("serverIsReady");
       console.log(`Server running at port ${settings.port}`);
     });
   });
@@ -91,7 +91,7 @@ export const start = (ambient: "dev" | "prod" | "test") => {
           }
         });
 
-        Events.send("applicationIsReady");
+        sendEvent("applicationIsReady");
         resolve({ success: true });
       });
   });

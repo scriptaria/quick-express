@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { Validator } from "src/core/validator";
+import { validateRequest } from "src/core/validator";
 import { Task } from "src/models/task";
 import { User } from "src/models/user";
-import { validators } from "src/validators";
 
 /**
  * @api {get} /users/:id/tasks Get Tasks from a User
@@ -21,7 +20,7 @@ import { validators } from "src/validators";
  */
 export const getIdTasks = async (request: Request, response: Response) => {
 
-  const validator = Validator.validate(request, {
+  const validations = validateRequest(request, {
     query: {
       limit: {
         numericality: {
@@ -31,9 +30,9 @@ export const getIdTasks = async (request: Request, response: Response) => {
     },
   });
 
-  if (!validator.success) {
+  if (!validations.success) {
     response.status(400);
-    response.send({ errors: validator.errors });
+    response.send({ errors: validations.errors });
     return;
   }
 

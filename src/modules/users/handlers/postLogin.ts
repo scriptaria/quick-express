@@ -1,6 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { Validator } from "src/core/validator";
+import { validateRequest } from "src/core/validator";
 import { User } from "src/models/user";
 import { settings } from "src/settings";
 import { validators } from "src/validators";
@@ -25,16 +25,16 @@ import { generateTokens } from "../helper";
  */
 export const postLogin = async (request: Request, response: Response) => {
 
-  const validator = Validator.validate(request, {
+  const validations = validateRequest(request, {
     body: {
       email: validators.email,
       password: validators.password,
     },
   });
 
-  if (!validator.success) {
+  if (!validations.success) {
     response.status(400);
-    response.send({ errors: validator.errors });
+    response.send({ errors: validations.errors });
     return;
   }
 

@@ -1,5 +1,5 @@
 import { Settings } from "src/interfaces/settings";
-import { Env } from "./core/env";
+import { getEnv } from "./core/env";
 
 export const settings: Settings = {
   port: 3000,
@@ -7,18 +7,18 @@ export const settings: Settings = {
   staticFolder: "/static",
   serveDoc: true,
   auth: {
-    secret: Env.get("AUTH_SECRET"),
+    secret: getEnv("AUTH_SECRET"),
     accessExpires: 30,
     refreshExpires: 43200,
   },
   database: {
-    synchronize: Env.get("DB_SYNC", true),
-    type: Env.get("DB_TYPE", "sqlite"),
-    host: Env.get("DB_HOST"),
-    port: Env.get("DB_PORT"),
-    username: Env.get("DB_USER"),
-    password: Env.get("DB_PASS"),
-    database: Env.get("DB_NAME", ":memory:"),
+    synchronize: getEnv("DB_SYNC", true),
+    type: getEnv("DB_TYPE", "sqlite"),
+    host: getEnv("DB_HOST"),
+    port: getEnv("DB_PORT"),
+    username: getEnv("DB_USER"),
+    password: getEnv("DB_PASS"),
+    database: getEnv("DB_NAME", ":memory:"),
     entities: [
       "/models/**",
     ],

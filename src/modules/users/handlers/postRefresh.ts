@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { VerifyErrors } from "jsonwebtoken";
 import * as Jwt from "jsonwebtoken";
-import { Validator } from "src/core/validator";
+import { validateRequest } from "src/core/validator";
 import { User } from "src/models/user";
 import { settings } from "src/settings";
 import { generateTokens } from "../helper";
@@ -24,7 +24,7 @@ import { generateTokens } from "../helper";
  */
 export const postRefresh = (request: Request, response: Response) => {
 
-  const validator = Validator.validate(request, {
+  const validations = validateRequest(request, {
     body: {
       refresh: {
         presence: {
@@ -34,9 +34,9 @@ export const postRefresh = (request: Request, response: Response) => {
     },
   });
 
-  if (!validator.success) {
+  if (!validations.success) {
     response.status(400);
-    response.send({ errors: validator.errors });
+    response.send({ errors: validations.errors });
     return;
   }
 

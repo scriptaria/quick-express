@@ -8,22 +8,17 @@ export interface Validations {
   params?: any;
 }
 
-export class Validator {
-  public static validate(request: Request, validations: Validations): DefaultResponse<void> {
+export const validateRequest = (request: Request, validations: Validations): DefaultResponse<void> => {
+  let success = true;
+  const errors = {};
 
-    let success = true;
-    const errors = {};
-
-    for (const key in validations) {
-      if (validations.hasOwnProperty(key)) {
-        const error = validate(request[key], validations[key]);
-        if (error) {
-          errors[key] = error;
-          success = false;
-        }
-      }
+  const validation = Object.keys(validations).map((key) => {
+    const error = validate(request[key], validations[key]);
+    if (error) {
+      errors[key] = error;
+      success = false;
     }
+  });
 
-    return { success, errors };
-  }
-}
+  return { success, errors };
+};

@@ -1,10 +1,10 @@
 import { settings } from "src/settings";
 import * as request from "supertest";
 import { Database } from "./database";
-import { Env } from "./env";
-import { Events } from "./events";
+import { getEnv } from "./env";
+import { listenEvent, sendEvent } from "./events";
 import { Server } from "./server";
-import { Validations, Validator } from "./validator";
+import { validateRequest, Validations } from "./validator";
 
 describe("Quick Express Core", () => {
 
@@ -79,20 +79,20 @@ describe("Quick Express Core", () => {
 
   describe("Env", () => {
     test("Get an unused env and receives the settled default value", () => {
-      expect(Env.get("inexistentEnvKeyHere", "defaultValue")).toBe("defaultValue");
+      expect(getEnv("inexistentEnvKeyHere", "defaultValue")).toBe("defaultValue");
     });
     test("Get an unused env and receives undefined", () => {
-      expect(Env.get("inexistentEnvKeyHere")).toBe(undefined);
+      expect(getEnv("inexistentEnvKeyHere")).toBe(undefined);
     });
   });
 
   describe("Events", () => {
     test("Send a event and receives it back", (done) => {
-      Events.listen("testEvent").subscribe((data) => {
+      listenEvent("testEvent").subscribe((data) => {
         expect(data).toBe("testValue");
         done();
       });
-      Events.send("testEvent", "testValue");
+      sendEvent("testEvent", "testValue");
     });
   });
 
@@ -138,7 +138,7 @@ describe("Quick Express Core", () => {
         },
       };
 
-      const result = Validator.validate(requestData as any, rules);
+      const result = validateRequest(requestData as any, rules);
       expect(result.success).toBe(true);
     });
 
@@ -152,7 +152,7 @@ describe("Quick Express Core", () => {
         },
       };
 
-      const result = Validator.validate(requestData as any, rules);
+      const result = validateRequest(requestData as any, rules);
       expect(result.success).toBe(false);
     });
   });

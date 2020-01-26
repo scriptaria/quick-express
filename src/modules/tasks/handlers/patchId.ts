@@ -1,7 +1,7 @@
 import { boolean } from "boolean";
 import { Request, Response } from "express";
+import { validateRequest } from "src/core/validator";
 import { Task } from "src/models/task";
-import { Validator } from "src/core/validator";
 
 /**
  * @api {patch} /tasks/:id Modify a Task by Id
@@ -16,7 +16,7 @@ import { Validator } from "src/core/validator";
  */
 export const patchId = async (request: Request, response: Response) => {
 
-  const validator = Validator.validate(request, {
+  const validations = validateRequest(request, {
     body: {
       title: {
         length: {
@@ -27,9 +27,9 @@ export const patchId = async (request: Request, response: Response) => {
     },
   });
 
-  if (!validator.success) {
+  if (!validations.success) {
     response.status(400);
-    response.send({ errors: validator.errors });
+    response.send({ errors: validations.errors });
     return;
   }
 

@@ -113,7 +113,7 @@ export class Server {
 
   private addStatusEndpoint(): void {
     const route = `${this.baseRoute}/status`;
-    this.app.get(route, (request: Request, response: Response) => {
+    this.app.get([this.baseRoute, route], (request: Request, response: Response) => {
 
       const data = {
         database: this.database?.connection?.isConnected,
