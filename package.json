@@ -37,7 +37,7 @@
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.5",
     "sqlite3": "4.1.1",
-    "typeorm": "0.2.24",
+    "typeorm": "0.2.25",
     "validate.js": "0.13.1"
   },
   "devDependencies": {
